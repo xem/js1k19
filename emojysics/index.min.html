@@ -1,0 +1,15 @@
+﻿<body id=b>
+<canvas id=a></canvas>
+<script>
+c = a.getContext('2d')
+a.width = innerWidth;
+a.height = innerHeight;
+</script>
+
+<script>
+
+z=(b,d=Math.random()*a.width/50+9,t=1/d)=>f.push({b,V:o(0,0),t,B:t?7*Math.random():0,D:0,d,Z:String.fromCodePoint(128512+69*Math.random()|0)}),o=(b,d,t)=>({x:b,y:d}),e=(b,d,t)=>y(b,b)**.5,r=(b,d,t)=>o(b.x+d.x,b.y+d.y),C=(b,d,t)=>r(b,V(d,-1)),V=(b,d,t)=>o(b.x*d,b.y*d),y=(b,d,t)=>b.x*d.x+b.y*d.y,g=(b,d,t)=>b.x*d.y-b.y*d.x,R=(b,d,t)=>V(b,1/(e(b)||1)),f=[];for(z(o(a.width/2,a.height+a.width/4),a.width/2,0),i=99;i--;)z(o(Math.random()*a.width/2+a.width/4,Math.random()*a.height-a.height));onclick=(b,d,t)=>z(o(b.pageX,b.pageY));ondblclick=(b,d,t)=>z(o(b.pageX,b.pageY),Math.random()*a.width/9+9,0);setInterval('for(a.width^=0,i=f.length;i--;){for(j=f.length;j--;)b=f[i],d=f[j],M=C(d.b,b.b),e(M)<b.d+d.d&&(D=b.d+d.d-e(M),N=R(M),S=r(d.b,V(R(V(M,-1)),d.d)),E=r(S,V(N,D)),(b.t||d.t)&&(h=V(N,D/(b.t+d.t)*.8),b.b=r(b.b,V(h,-b.t)),d.b=r(d.b,V(h,d.t)),p=r(V(S,d.t/(b.t+d.t)),V(E,b.t/(b.t+d.t))),l=C(p,b.b),m=C(p,d.b),n=C(r(d.V,o(-1*d.D*m.y,d.D*m.x)),r(b.V,o(-1*b.D*l.y,b.D*l.x))),s=-1.5*y(n,N)/(b.t+d.t+g(l,N)**2*b.t+g(m,N)**2*d.t),t=V(N,s),b.V=C(b.V,V(t,b.t)),d.V=r(d.V,V(t,d.t)),b.D-=g(l,N)*s*b.t,d.D+=g(m,N)*s*d.t,u=V(R(C(n,V(N,y(n,N)))),-1),x=-1.5*y(n,u)*.5/(b.t+d.t+g(l,u)**2*b.t+g(m,u)**2*d.t),t=V(u,x),b.V=C(b.V,V(t,b.t)),d.V=r(d.V,V(t,d.t)),b.D-=g(l,u)*x*b.t,d.D+=g(m,u)*x*d.t));b.t&&b.V.y++,b.b=r(b.b,V(b.V,.01)),b.B+=b.t?.01*b.D:.001,c.save(),c.beginPath(),c.translate(b.b.x,b.b.y),c.rotate(b.B),c.arc(0,0,b.d,0,7),c.font=1.9*b.d+"px a",f[i].t?c.fillText(b.Z,1.24*-b.d,.67*b.d):c.fill(),c.restore()}',9)
+
+</script>
+<style>
+* { margin: 0; padding: 0; overflow: hidden; }
