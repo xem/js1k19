@@ -15,8 +15,8 @@ a.height = innerHeight;
 // ------------
 // This demo implements the 2D physics engine described here: https://www.apress.com/la/book/9781484225820
 // In order to fit in 1kb, only circles are implemented, and they're represented with emoji.
+// On Linux, iOS and MacOS, the emoji are too buggy, so they're replaced with a circle and a line.
 // I made a full implementation (with rectangles) in ~1.5kb here: https://github.com/xem/mini2Dphysics
-// The demo works best on Windows and Android (the emoji get a bit distorted on MacOS and iOS, sorry).
 
 // The code below is minified with this tool: https://xem.github.io/terser-online/
 // The "extra compression" option reduces the names of the global vars to 1 char and removes redundant spaces.
@@ -43,7 +43,7 @@ var Circle = (C, R = Math.random() * a.width / 50 + 9, M = 1 / R) =>
 		V: Vec2(0, 0),								// V: velocity (speed)
 		M,														// M: inverseMass
 		B: M ? Math.random() * 7 : 0, // B: angle
-		D: 0,												 // D: angle velocity
+		D: 0,												  // D: angle velocity
 		R,														// R: radius
 		Z: String.fromCodePoint(			// Z: random emoji between U+1F600 and U+1F645
 				0x1F600 + Math.random() * 0x45 | 0
@@ -96,7 +96,7 @@ for(i = 99; i--; ){
 onclick = e => Circle(Vec2(e.pageX, e.pageY))
 
 // Create a new immobile circle on double-click
-ondblclick = e => Circle(Vec2(e.pageX, e.pageY), Math.random() * 99, 0)
+ondblclick = e => Circle(Vec2(e.pageX, e.pageY), Math.random() * 99 + 9, 0)
 
 // Animation loop
 // --------------
@@ -227,15 +227,26 @@ setInterval(
 
       // Make an arc with the circle's radius
       c.arc(0, 0, b.R, 0, 7);
+      
+      // Make a line from the arc to the center
+      c.lineTo(0,0);
 
       // Set the font size to the circle's radius * 1.9 (to make the emoji appear with the right radius)
       c.font = b.R * 1.9 + "px a";
 
-      // If the circle is mobile, draw the emoji
-      // Horizontal and vertical offsets (R * -1.24 and R * 0.67) make it appear at the right place.
+      // If the circle is mobile:
+      if(objects[i].M ){
+
+        // On Linux, MacOS and iOS: stroke the circle and the line
+        if(navigator.platform[5]) c.stroke();
+
+        // On Windows and Android: draw the emoji. The offsets (R * -1.24 and R * .67) make the emoji appear at the right place.
+        else c.fillText(b.Z, -b.R * 1.24, b.R * .67);
+      }
+
       // If the circle is immobile, fill the arc in black
-      if(objects[i].M && !navigator.platform[5]) c.fillText(b.Z, -b.R * 1.24, b.R * .67);
       else c.fill();
+
       c.restore();
     }
   },
