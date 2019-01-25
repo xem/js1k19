@@ -37,21 +37,21 @@ a.height = innerHeight;
 
 var Circle = (C, R = Math.random() * a.width / 50 + 9, M = 1 / R) =>
 
-	// Add a new circle into `objects`, the list of circles in the scene:
-	objects.push({
-		C,														// C: center
-		V: Vec2(0, 0),								// V: velocity (speed)
-		M,														// M: inverseMass
-		B: M ? Math.random() * 7 : 0, // B: angle
-		D: 0,												  // D: angle velocity
-		R,														// R: radius
-		Z: String.fromCodePoint(			// Z: random emoji between U+1F600 and U+1F645
-				0x1F600 + Math.random() * 0x45 | 0
-		)
+  // Add a new circle into `objects`, the list of circles in the scene:
+  objects.push({
+    C,                            // C: center
+    V: Vec2(0, 0),                // V: velocity (speed)
+    M,                            // M: inverseMass
+    B: M ? Math.random() * 7 : 0, // B: angle
+    D: 0,                         // D: angle velocity
+    R,                            // R: radius
+    Z: String.fromCodePoint(      // Z: random emoji between U+1F600 and U+1F645
+        0x1F600 + Math.random() * 0x45 | 0
+    )
 
-		// Note: in a realistic 2D engine, there should be an extra variable called Inertia, proportional to mass * radius².
-		// Here it's simply replaced by M to save space.
-	});
+    // Note: in a realistic 2D engine, there should be an extra variable called Inertia, proportional to mass * radius².
+    // Here it's simply replaced by M to save space.
+  });
 
 // 2D vector library
 // -----------------
@@ -65,14 +65,14 @@ var Circle = (C, R = Math.random() * a.width / 50 + 9, M = 1 / R) =>
 // This is a RegPack optimization (the more a function signature is repeated, the better it's compressed).
 // More info on codegolfctober 2018: http://xem.github.io/articles/#codegolfctober18 (days 3 & 4)
 
-var Vec2 = (x,y) => ({x,y});															// Vec2 constructor
-var length = (x,y)=> dot(x,x)**.5;												// Vector length (Math.hypot(x.x, x.y))
-var add = (x,y,t) => Vec2(x.x + y.x, x.y + y.y);						// Add two vectors (x + y)
-var subtract = (x,y) => add(x, scale(y, -1));						 // Subtract two vectors (x - y)
-var scale = (x,y) => Vec2(x.x * y, x.y * y);							// Scale a vector (x * y)
-var dot = (x,y) => x.x * y.x + x.y * y.y;								 // Dot product (x ∙ y)
-var cross = (x,y) => x.x * y.y - x.y * y.x;							 // Cross product (x ⨯ y)
-var normalize = (x,y) => scale(x, 1 / (length(x) || 1));	// Normalize a vector (‖x‖ sets length to 1 if it has a length)
+var Vec2 = (x,y) => ({x,y});                              // Vec2 constructor
+var length = (x,y)=> dot(x,x)**.5;                        // Vector length (Math.hypot(x.x, x.y))
+var add = (x,y,t) => Vec2(x.x + y.x, x.y + y.y);            // Add two vectors (x + y)
+var subtract = (x,y) => add(x, scale(y, -1));             // Subtract two vectors (x - y)
+var scale = (x,y) => Vec2(x.x * y, x.y * y);              // Scale a vector (x * y)
+var dot = (x,y) => x.x * y.x + x.y * y.y;                 // Dot product (x ∙ y)
+var cross = (x,y) => x.x * y.y - x.y * y.x;               // Cross product (x ⨯ y)
+var normalize = (x,y) => scale(x, 1 / (length(x) || 1));  // Normalize a vector (‖x‖ sets length to 1 if it has a length)
 
 
 // Objects list
@@ -87,7 +87,7 @@ Circle(Vec2(a.width/2, a.height + a.width/4), a.width/2, 0);
 
 // Create 99 circles with random size and position, above the top of the screen
 for(i = 99; i--; ){
-	Circle(Vec2(Math.random() * a.width/2 + a.width/4, Math.random() * a.height - a.height));
+  Circle(Vec2(Math.random() * a.width/2 + a.width/4, Math.random() * a.height - a.height));
 }
 
 // Interactivity
@@ -102,121 +102,121 @@ ondblclick = e => Circle(Vec2(e.pageX, e.pageY), Math.random() * 99 + 9, 0)
 // --------------
 setInterval(
 
-	// Execute this function every 9ms:
-	e => {
+  // Execute this function every 9ms:
+  e => {
 
-		// Reset the canvas
-		a.width ^= 0;
+    // Reset the canvas
+    a.width ^= 0;
 
-		// Loop on all pairs of circles.
-		for(i = objects.length; i--;){
+    // Loop on all pairs of circles.
+    for(i = objects.length; i--;){
 
-			for(j = objects.length; j--;){
+      for(j = objects.length; j--;){
 
-				// Note: another for loop (ex: k = 0 to 15) could be added here for more precision.
-				// Such a loop would force the simulation to run 15 times per frame and ensure all the collisions are fully resolved.
-				// Though, it's not necessary for such a small demo: a single pass works fine.
+        // Note: another for loop (ex: k = 0 to 15) could be added here for more precision.
+        // Such a loop would force the simulation to run 15 times per frame and ensure all the collisions are fully resolved.
+        // Though, it's not necessary for such a small demo: a single pass works fine.
 
-				// Call the two circles b and d.
-				b = objects[i];
-				d = objects[j];
+        // Call the two circles b and d.
+        b = objects[i];
+        d = objects[j];
 
-				// Test collisions
-				// ---------------
-				// The two circles collide if the distance between their centers is smaller than the sum of their radii.
-				e = subtract(d.C, b.C);
+        // Test collisions
+        // ---------------
+        // The two circles collide if the distance between their centers is smaller than the sum of their radii.
+        e = subtract(d.C, b.C);
 
-				if(length(e) < b.R + d.R){
+        if(length(e) < b.R + d.R){
 
-					// Compute the collision's properties
-					D = b.R + d.R - length(e),												 // D: depth
-					N = normalize(e),																	// N: normal
-					S = add(d.C, scale(normalize(scale(e, -1)), d.R)), // S: start point
-					E = add(S, scale(N, D))														// E: end point
+          // Compute the collision's properties
+          D = b.R + d.R - length(e),                         // D: depth
+          N = normalize(e),                                  // N: normal
+          S = add(d.C, scale(normalize(scale(e, -1)), d.R)), // S: start point
+          E = add(S, scale(N, D))                            // E: end point
 
-					// Resolve collision
-					// -----------------
-					// If at least one of the circles is not immobile
-					if(b.M || d.M){
+          // Resolve collision
+          // -----------------
+          // If at least one of the circles is not immobile
+          if(b.M || d.M){
 
-						// First, correct the two circles' positions
-						// The two circles are moved away from each other along N (the collision's normal) and proportionally to their masses.
-						// The move distance is not equal to their interpenetration, but scaled down using a position correction rate (here, 0.8).
-						// This rate makes the resolution of multiple collisions on the same shape smoother.
-						h = scale(N, D / (b.M + d.M) * .8);
-						b.C = add(b.C, scale(h, -b.M));
-						d.C = add(d.C, scale(h, d.M));
+            // First, correct the two circles' positions
+            // The two circles are moved away from each other along N (the collision's normal) and proportionally to their masses.
+            // The move distance is not equal to their interpenetration, but scaled down using a position correction rate (here, 0.8).
+            // This rate makes the resolution of multiple collisions on the same shape smoother.
+            h = scale(N, D / (b.M + d.M) * .8);
+            b.C = add(b.C, scale(h, -b.M));
+            d.C = add(d.C, scale(h, d.M));
 
-						// Then, compute the relative velocity between the two circles
-						p = add(scale(S, d.M / (b.M + d.M)), scale(E, b.M / (b.M + d.M)));
-						l = subtract(p, b.C);
-						m = subtract(p, d.C);
-						n = subtract(add(d.V, Vec2(-1 * d.D * m.y, d.D * m.x)), add(b.V, Vec2(-1 * b.D * l.y, b.D * l.x)));
+            // Then, compute the relative velocity between the two circles
+            p = add(scale(S, d.M / (b.M + d.M)), scale(E, b.M / (b.M + d.M)));
+            l = subtract(p, b.C);
+            m = subtract(p, d.C);
+            n = subtract(add(d.V, Vec2(-1 * d.D * m.y, d.D * m.x)), add(b.V, Vec2(-1 * b.D * l.y, b.D * l.x)));
 
-						// Check if the two circles actually move towards each other.
-						// if dot(n,N) is negative, it means that n and N point to opposite directions, i.e. the two circles are going apart.
-						// This test is just an algorithm optimization, and it's commented here to save space.
-						// if(dot(n, N) < 0){
+            // Check if the two circles actually move towards each other.
+            // if dot(n,N) is negative, it means that n and N point to opposite directions, i.e. the two circles are going apart.
+            // This test is just an algorithm optimization, and it's commented here to save space.
+            // if(dot(n, N) < 0){
 
-							// Restitution
-							// -----------
-							// Restitution makes the circles bounce on each other.
-							// It can have any value for each circle, but it is fixed in this demo: 0.5 for all circles.
-							// If both circles had a different restitution, the smallest one would apply.
+              // Restitution
+              // -----------
+              // Restitution makes the circles bounce on each other.
+              // It can have any value for each circle, but it is fixed in this demo: 0.5 for all circles.
+              // If both circles had a different restitution, the smallest one would apply.
 
-							// Compute jN.
-							s = (-1.5 * dot(n, N)) / (b.M + d.M + cross(l, N) ** 2 * b.M + cross(m, N) ** 2 * d.M);
+              // Compute jN.
+              s = (-1.5 * dot(n, N)) / (b.M + d.M + cross(l, N) ** 2 * b.M + cross(m, N) ** 2 * d.M);
 
-							// Compute impulse.
-							t = scale(N, s);
+              // Compute impulse.
+              t = scale(N, s);
 
-							// Update the circles' velocity and angular velocity
-							b.V = subtract(b.V, scale(t, b.M));
-							d.V = add(d.V, scale(t, d.M));
-							b.D -= cross(l, N) * s * b.M;
-							d.D += cross(m, N) * s * d.M;
+              // Update the circles' velocity and angular velocity
+              b.V = subtract(b.V, scale(t, b.M));
+              d.V = add(d.V, scale(t, d.M));
+              b.D -= cross(l, N) * s * b.M;
+              d.D += cross(m, N) * s * d.M;
 
-							// Friction
-							// --------
-							// Friction makes the circles roll or glide against each other.
-							// It can have any value for each circle, but it is also fixed to 0.5.
-							// If both circles had a different friction, the smallest one would apply.
+              // Friction
+              // --------
+              // Friction makes the circles roll or glide against each other.
+              // It can have any value for each circle, but it is also fixed to 0.5.
+              // If both circles had a different friction, the smallest one would apply.
 
-							// Compute tangent.
-							u = scale(normalize(subtract(n, scale(N, dot(n, N)))), -1);
+              // Compute tangent.
+              u = scale(normalize(subtract(n, scale(N, dot(n, N)))), -1);
 
-							// Compute jT.
-							x = -1.5 * dot(n, u) * .5 / (b.M + d.M + cross(l, u) ** 2 * b.M + cross(m, u) ** 2 * d.M);
+              // Compute jT.
+              x = -1.5 * dot(n, u) * .5 / (b.M + d.M + cross(l, u) ** 2 * b.M + cross(m, u) ** 2 * d.M);
 
-							// compute angular impulse.
-							t = scale(u, x);
+              // compute angular impulse.
+              t = scale(u, x);
 
-							// Update the circles' velocity and angular velocity
-							b.V = subtract(b.V, scale(t, b.M));
-							d.V = add(d.V, scale(t, d.M));
-							b.D -= cross(l, u) * x * b.M;
-							d.D += cross(m, u) * x * d.M;
+              // Update the circles' velocity and angular velocity
+              b.V = subtract(b.V, scale(t, b.M));
+              d.V = add(d.V, scale(t, d.M));
+              b.D -= cross(l, u) * x * b.M;
+              d.D += cross(m, u) * x * d.M;
 
-						//}
-					}
-				}
-			}
+            //}
+          }
+        }
+      }
 
-			// At this point, we're in the first loop, so we will only update the circle called b.
+      // At this point, we're in the first loop, so we will only update the circle called b.
 
-			// Update the scene
-			// ----------------
+      // Update the scene
+      // ----------------
       // If the circle is mobile:
-			// - add gravity to the circles' velocity: b.V += [0,1]
-			// - add angular velocity to the circle's angle
-			// - Add velocity to the circle's position
-			if(b.M){
+      // - add gravity to the circles' velocity: b.V += [0,1]
+      // - add angular velocity to the circle's angle
+      // - Add velocity to the circle's position
+      if(b.M){
         b.V.y++
         b.B += b.D * .01;
         b.C = add(b.C, scale(b.V, .01));
       }
 
-			// Draw
+      // Draw
       // ----
       c.save();
       c.beginPath();
@@ -227,7 +227,7 @@ setInterval(
 
       // Make an arc with the circle's radius
       c.arc(0, 0, b.R, 0, 7);
-      
+
       // Make a line from the arc to the center
       c.lineTo(0,0);
 
