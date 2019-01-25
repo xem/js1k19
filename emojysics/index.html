@@ -39,13 +39,13 @@ var Circle = (C, R = Math.random() * a.width/50 + 9, M = 1 / R) =>
 
 	// Add a new circle into `objects`, the list of circles in the scene:
 	objects.push({
-		C,										// C: center
-		V: Vec2(0, 0),							// V: velocity (speed)
-		M,										// M: inverseMass
+		C,					// C: center
+		V: Vec2(0, 0),				// V: velocity (speed)
+		M,					// M: inverseMass
 		B: M ? Math.random() * 69 | 0 + 12 : 0, // B: angle (`*69|0+12` is used here instead of `*2*PI` to optimize compression)
-		D: 0,									// D: angle velocity
-		R,										// R: radius
-		Z: String.fromCodePoint(				// Z: random emoji between U+1F600 and U+1F645
+		D: 0,					// D: angle velocity
+		R,					// R: radius
+		Z: String.fromCodePoint(		// Z: random emoji between U+1F600 and U+1F645
 			Math.random() * 0x45 | 0 + 0x1F600
 		)
 
@@ -66,13 +66,13 @@ var Circle = (C, R = Math.random() * a.width/50 + 9, M = 1 / R) =>
 // This is a RegPack optimization (the more a function signature is repeated, the better it's compressed).
 // More info on codegolfctober 2018: http://xem.github.io/articles/#codegolfctober18 (days 3 & 4)
 
-var Vec2 = (x,y) => ({x,y});								// Vec2 constructor
-var length = (x,y)=> dot(x,x)**.5;							// Vector length (Math.hypot(x.x, x.y))
-var add = (x,y,t) => Vec2(x.x + y.x, x.y + y.y);			// Add two vectors (x + y)
-var subtract = (x,y) => add(x, scale(y, -1));				// Subtract two vectors (x - y)
-var scale = (x,y) => Vec2(x.x * y, x.y * y);				// Scale a vector (x * y)
-var dot = (x,y) => x.x * y.x + x.y * y.y;					// Dot product (x ∙ y)
-var cross = (x,y) => x.x * y.y - x.y * y.x;					// Cross product (x ⨯ y)
+var Vec2 = (x,y) => ({x,y});					// Vec2 constructor
+var length = (x,y)=> dot(x,x)**.5;				// Vector length (Math.hypot(x.x, x.y))
+var add = (x,y,t) => Vec2(x.x + y.x, x.y + y.y);		// Add two vectors (x + y)
+var subtract = (x,y) => add(x, scale(y, -1));			// Subtract two vectors (x - y)
+var scale = (x,y) => Vec2(x.x * y, x.y * y);			// Scale a vector (x * y)
+var dot = (x,y) => x.x * y.x + x.y * y.y;			// Dot product (x ∙ y)
+var cross = (x,y) => x.x * y.y - x.y * y.x;			// Cross product (x ⨯ y)
 var normalize = (x,y) => scale(x, 1 / (length(x) || 1));	// Normalize a vector (‖x‖ sets length to 1 if it has a length)
 
 
@@ -128,10 +128,10 @@ setInterval(
 				if(length(e) < b.R + d.R){
 
 					// Compute the collision's properties
-					D = b.R + d.R - length(e),							// D: depth
-					N = normalize(e),									// N: normal
+					D = b.R + d.R - length(e),				// D: depth
+					N = normalize(e),					// N: normal
 					S = add(d.C, scale(normalize(scale(e, -1)), d.R)),	// S: start point
-					E = add(S, scale(N, D))								// E: end point
+					E = add(S, scale(N, D))					// E: end point
 
 					// Resolve collision
 					// -----------------
