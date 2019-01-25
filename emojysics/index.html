@@ -39,13 +39,13 @@ var Circle = (C, R = Math.random() * a.width/50 + 9, M = 1 / R) =>
 
 	// Add a new circle into `objects`, the list of circles in the scene:
 	objects.push({
-		C,									// C: center
-		V: Vec2(0, 0),						// V: velocity (speed)
-		M,									// M: inverseMass
-		B: M ? Math.random() * 69 | 0 + 12, // B: angle (`*69|0+12` is used here instead of `*2*PI` to optimize compression)
-		D: 0,								// D: angle velocity
-		R,									// R: radius
-		Z: String.fromCodePoint(			// Z: random emoji between U+1F600 and U+1F645
+		C,										// C: center
+		V: Vec2(0, 0),							// V: velocity (speed)
+		M,										// M: inverseMass
+		B: M ? Math.random() * 69 | 0 + 12 : 0, // B: angle (`*69|0+12` is used here instead of `*2*PI` to optimize compression)
+		D: 0,									// D: angle velocity
+		R,										// R: radius
+		Z: String.fromCodePoint(				// Z: random emoji between U+1F600 and U+1F645
 			Math.random() * 0x45 | 0 + 0x1F600
 		)
 
@@ -93,7 +93,7 @@ for(i = 99; i--; ) Circle(Vec2(Math.random() * a.width/2 + a.width/4, Math.rando
 // Interactivity
 // -------------
 // Create a new mobile circle on click and an immobile one on double click
-onclick = e => d.detail > 1 ? z(o(d.pageX, d.pageY), Math.random() * 69 | 0 + 12, 0) : z(o(d.pageX, d.pageY));
+onclick = e => e.detail > 1 ? Circle(Vec2(d.pageX, d.pageY), Math.random() * 69 | 0 + 12, 0) : Circle(Vec2(d.pageX, d.pageY));
 
 
 // Animation loop
@@ -114,6 +114,7 @@ setInterval(
 				// Note: another for loop (ex: k = 0 to 15) could be added here for more precision.
 				// Such a loop would force the simulation to run 15 times per frame and ensure all the collisions are fully resolved.
 				// Though, it's not necessary for such a small demo: a single pass works fine.
+				// The inner loop could have been simplified with `;j-- > i;` but it would take more bytes.
 
 				// Call the two circles b and d.
 				b = objects[i];
@@ -206,8 +207,8 @@ setInterval(
 			// - Add velocity to the circle's position
 			if(b.M){
 				b.V.y++
-				b.B += b.D * .01;
-				b.C = add(b.C, scale(b.V, .01));
+				b.B += b.D * .02;
+				b.C = add(b.C, scale(b.V, .02));
 			}
 
 			// Draw
@@ -233,7 +234,7 @@ setInterval(
 
 				// On MacOS and iOS: stroke the circle and the line
 				// More info on this test: https://twitter.com/MaximeEuziere/status/1088808226790010880
-				if(navigator.userAgent.match("Ma") c.stroke();
+				if(navigator.userAgent.match("Ma")) c.stroke();
 
 				// On Linux, Windows and Android: draw the emoji. The offsets (R * -1.24 and R * .67) make the emoji appear at the right place.
 				else c.fillText(b.Z, -b.R * 1.3, b.R * .65);
@@ -245,15 +246,15 @@ setInterval(
 			c.restore();
 		}
 	},
-	9
+	16
 );
 
 // After minification:
-// - I replaced the function in setInterval(...) with a string
-// - I renamed `M()` as `z()`
-// - I reused the signature of Circle() for all the other functions: `(d,b=Math.random()*a.width/50+9,t=1/b)=>...`
-// The minified size is 1819b.
-// After RegPacking (with the vars a,c,z ignored and 2/1/0 score), it fits in 1023b.
+// - I replaced the function in setInterval(...) with a string.
+// - I renamed `M()` as `z()`.
+// - I reused the signature of Circle() for all the other functions: `(d,b=Math.random()*a.width/50+9,t=1/b)=>...`.
+// The minified size is 1820b.
+// After RegPacking (with the vars a,c,z ignored and 2/1/0 score), it fits in 1024b.
 
 </script>
 <style>
