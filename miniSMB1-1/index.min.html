@@ -1,0 +1,15 @@
+<canvas id=a>
+<script>
+c = a.getContext(`2d`);
+a.width=15*9;
+a.height=13*9;
+top.reload = () => {
+  location = location;
+}
+
+y=[f=e=o=t=0],n=R=5,S=50,a=24,d=(l,i)=>{for(Y=11;Y-->l;)y[Y][i]=y[Y][i+1]=4},h=(l,i,f)=>{for(Y=11;Y-->l;)if(f)for(X=i;X<i+Y-l;X++)y[Y][X]=y[10][198]=1;else for(X=i;X-->i-Y+l;)y[Y][X]=y[10][198]=1},p=(l,i,f)=>{if(y[~~i])return f&&y[~~i][~~l]&&2!=y[~~i][~~l]&&(y[~~i][~~l]--,t=0),y[~~i][~~l]};for(i=15;i--;)for(y[i]=[],j=999;j--;)y[i][j]=i>10&&![69,70,86,87,88,153,154].includes(j);for(i of[22,94,109,129,130])y[3][i]=3;for(i of[80,81,82,83,84,85,86,87,91,92,93,121,122,123,128,131])y[3][i]=1;for(i of[8,21,23,78,106,109,112,170])y[7][i]=3;for(i of[20,22,24,77,79,94,100,118,129,130,88,89,171])y[7][i]=y[10][198]=1;d(9,28),d(8,38),d(7,46),d(7,57),d(9,83),d(9,179),h(6,138),h(6,152),h(6,153),h(2,190),h(2,191),h(6,140,1),h(6,155,1),l=u=r=0,onkeydown=onkeyup=(l=>self[`lur`[l.which-37]]=l.type[5]),setInterval("for(a-=.02,Math.hypot(a-n,10-R)<1&&(e?a=t=-.25:f=1),l&&n>o&&p(n-=.1,R)&&(n=1+~~n),r&&(p((n+=.1)+1,R)?n=~~n-.1:n>o+7&&(o+=.1)),u&&!e&&(t=-.25),R+=t+=.012,t<0&&p(n,R+=t,1)|p(n+.9,R,1)&&(R=1+~~R,t=0),(R>14||n>198)&&(f=1),(e=u=!(p(n,R+1)|p(n+1,R+1)))||(R=~~R,t=0),c.fillStyle=`#59f`,c.fillRect(0,0,999,999),i=13;i--;)for(j=999;j--;)4==y[i][j]?(c.fillStyle=`#8d1`,c.fillRect(9*j-9*o,9*i,9,9),c.fillRect(1784-9*o,9,2,81)):3==y[i][j]?(c.fillStyle=`#f93`,c.fillRect(9*j-9*o,9*i,9,9)):y[i][j]&&(c.fillStyle=`#c40`,c.fillRect(9*j-9*o,9*i,9,9));c.fillStyle=`#a00`,c.fillRect(9*a-9*o,90,9,9),c.fillStyle=`#d20`,c.fillRect(9*n-9*o,9*R,9,9),f&&top.reload(),S&&(c.fillStyle=`#000`,c.fillRect(0,0,999,999),S--)",9)
+
+</script>
+
+<style>
+* { overflow: hidden 
