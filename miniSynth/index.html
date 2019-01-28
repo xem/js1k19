@@ -1,0 +1,125 @@
+﻿<body id=b>
+<script>
+
+// MiniSynth
+// =========
+
+// Introduction
+// ------------
+// This demo shows a piano keyboard and synthesizes piano and guitar notes of a given duration
+// It is inspired by Keithwor's Audiosynth: https://github.com/keithwhor/audiosynth
+// After forking the project, I looked at the 11.3kb script, removed all the redundant code,
+// and remarked that both piano and guitar synthesizers could fit in less than 512 bytes: https://twitter.com/MaximeEuziere/status/1071490262772404224
+// I merged them and added an UI to make this demo.
+
+// Play a note
+// -----------
+n = e => {
+  for(
+  
+    // V: note length in seconds
+    V = d.value,
+    
+    // O: piano is selected
+    u = o.checked,
+    
+    // Temp vars for guitar synthesis
+    v = [],
+    p = c = 0,
+    
+    // Modulation
+    // This function generates the i'th sample of a sinusoidal signal with a specific frequency and amplitude
+    b = (e, t, a, i) => Math.sin(e / t * 6.28 * a + i),
+    
+    // Instrument synthesis
+    w = (e, t) =>
+    
+      u 
+
+      // Piano
+      ? Math.sin(e / 44100 * t * 6.28 + b(e, 44100, t, 0) ** 2 + .75 * b(e, 44100, t, .25) + .1 * b(e, 44100, t, .5))
+      
+      // Guitar
+      : (
+        P = 44100 / t,
+        r = 0,
+        v.length <= 1 + ~~P
+        ? (v.push(2 * Math.random() - 1), v[v.length - 1])
+        : (v[p] = .5 * (
+          v[p >= v.length - 1 ? 0 : p + 1] + v[p]
+          ),
+          p >= ~~P && (
+            p < 1 + ~~P 
+            ? c % 100 >= ~~(100 * (P - ~~P)) &&(r = 1, v[p+1] = .5 * (v[0] + v[p + 1]), c++)
+            : r = 1
+          ),
+          p = r ? 0 : p + 1,
+          v[p]
+        )
+      ),
+    
+    // Sound samples
+    D = [],
+    
+    // Loop on all the samples
+    i = 0;
+    i < 44100 * V;
+    i++
+  ){
+  
+    // Fill the samples array
+    D[i] =
+    
+      // The first 88 samples represent the note's attack
+      i < 88 
+      ? i / 88.2 * w(i, e) 
+      
+      // The other samples represent the rest of the note
+      : (1 - (i - 88.2) / (44100 * (V - .002))) ** (u ? (.5 * Math.log(1e4 * e / 44100)) ** 2 : 1) * w(i, e);
+  }
+  
+  // Play the note
+  A = new AudioContext,
+  m = A.createBuffer(1, 1e6, 44100),
+  m.getChannelData(0).set(D),
+  s = A.createBufferSource(),
+  s.buffer = m,
+  s.connect(A.destination),
+  s.start()
+}
+
+
+// UI (form + keyboard)
+// --------------------
+b.innerHTML = 
+`
+  <h1>MiniSynth</h1>
+  <p>
+  <input type=radio name=U checked id=o>Piano
+  <input type=radio name=U>Guitar
+  <p>Note length: <input id=d value=2 size=1> seconds
+  <p><div id=p>
+`;
+
+for(i = 36;i--;){
+  p.innerHTML += `
+    <div style='width:30px;height:200px;float:left;border:1px solid;cursor:pointer;left:${
+      
+      // The left offset of each black note
+      i / 2 * 36.5 + 5
+    
+    }px;${
+      
+      // Compute f (the frequency of each note)
+      f = 130.81 * 1.06 ** i,
+      
+      // Make the black notes black, shorter and placed above the white notes
+      [1,3,6,8,10].includes(i % 12) 
+      ? "background:#000;position:absolute;height:99px"
+      : 0
+      
+    }'onclick=n(${f})>
+  `;
+}
+
+</script>
