@@ -50,6 +50,8 @@ x = 2,         // Mario's X position
 y = 2,         // Mario's Y position
 intro = 24,    // Frames of introduction (black screen)
 enemy = 24,    // The first enemy's X position (Y is constant: 10)
+//grounded = 0 // Is Mario touching the ground? (doesn't need to be initialized)
+
 
 // Helpers
 // -------
@@ -102,6 +104,7 @@ collision = (x, y, up) => {
   }
 };
 
+
 // MAP
 // ---
 // Define a 211 * 15 grid with 10 lines of sky (id = 0), and 5 lines of ground (id = 1).
@@ -140,12 +143,14 @@ stair(2, 191);
 stair(6, 140, 1);
 stair(6, 155, 1);
 
+
 // Input
 // -----
 // Every time a key is pressed (onkeydown), the corresponding flag is set to "w" (the 5th char of e.type = "keydown")
 // Every time a key is released (onkeydown), it is set to "undefined" (the 5th char of e.type = "keyup")
 // Those flags can be tested as if they were booleans because "w" is truthy and undefined is falsy.
 onkeydown = onkeyup = e => self['lur'[e.which - 37]] = e.type[5];
+
 
 // Game loop
 // ---------
@@ -292,11 +297,11 @@ setInterval(
       top.reload();
     }
 
-    // Draw a black screen during the intro (50 frames)
+    // Draw a black screen during the intro (24 frames)
     // (It also serves as a transition after a game over)
     if(intro){
       c.fillStyle = `#000`;
-      c.fillRect(0,0,999,999);
+      c.fillRect(0, 0, 999, 999);
       //c.fillStyle = `#fff`;
       //c.fillText("1-1", 60, 60);
       intro--;
