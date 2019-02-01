@@ -1,0 +1,158 @@
+﻿<body id=b>
+<script>
+
+// Peach1Kastle
+// ============
+
+// Introduction
+// ------------
+
+// This demo shows a minimalist reproduction of Super Mario 64's Peach Castle rendered with CSS3D and emoji.
+// It is best viewed on Windows and Android. Apple users can see how it looks here: https://twitter.com/MaximeEuziere/status/1057689364111781888/photo/1 
+// It was made with the help of this Mario 64 DS map: http://www.mariouniverse.com/wp-content/img/sprites/ds/sm64/map-objects.png
+// Nothing was automated though: every visual and coding aspect of this demo has been manually tweaked for months.
+// A RegPack issue was also fixed during the development of this demo: https://github.com/Siorki/RegPack/issues/83
+// It abuses string repetitions in order to have a minified source code (3135 bytes) RegPacked in 1022 bytes. (it's my record)
+// The CSS is extremely hacky, do not try this at home!
+
+// Map
+// ---
+
+// The map is a 18x14 grid:
+
+// 055000000000000552
+// 055000000000000552
+// 000500067760005012
+// 210500066660005012
+// 210555554455555012
+// 210000004400000012
+// 210000004400000012
+// 211111111111113112
+// 222211111122220222
+// 222212222222100000
+// 222211111222000000
+// 222211111222000000
+// 222222222222000000
+// 222222222222000000
+
+// It features 8 different "blocks" measuring 4em x 4em x a custom height and elevation:
+// 0: water
+// 1: path                     (height: .8em)
+// 2: grass                    (height: 1em)
+// 3: wood bridge              (height: .2em, elevation: 2em)
+// 4: entry bridge             (height: .2em, elevation: 2em)
+// 5: castle wall              (height: 6em)
+// 6: castle roof middle tower (height: 9em)
+// 7: castle roof high tower   (height: 12em)
+
+// This grid is encoded in a string called `m`, also used as the body's bgColor, which happens to be a nice green.
+
+
+// Scene
+// -----
+
+// Each number > 0 is represented by a CSS3D cube with a specific size, color and elevation.
+// The roofs consist of 7 CSS3D pyramids with specific positions and sizes.
+// The princess portrait and door emoji are specific elements placed at the beginning of the code.
+// The trees emoji are drawn above every grass block for which the position in the map string is a multiple of 7.
+// The flags are drawn above the last four castle roofs (the bottom ones). 
+// Finally, the water is a blue flat rectangle.
+
+
+// HTML / CSS
+// ----------
+
+// The page contains just enough elements to make the scene look complete.
+// In reality, all the 3D shapes have no back and bottom faces, and the castle is hollow.
+// This can be seen by putting the camera on the other side: https://imgur.com/ssIT7K8
+// These simplifications make the code shorter and improve the framerate.
+// All the elements of the scene have an inline style as identical as possible to improve compression:
+//
+//   style=transform-style:preserve-3d;position:fixed;width:(...)em;height:(...)em;
+//         background:#(...);                             // optional
+//         clip-path:polygon(2em+0,0+4em,4em+4em);        // optional, cuts the element in triangle (princess portrait / pyramid faces)
+//         transform:translate(...)rotate(...)scale(...)  // optional
+//
+// To save bytes, the style attributes uses no quotes and the final parenthesis of the `transform` is omitted.
+// All sizes are in `em` unit (instead of `vw`) because the scene gets too distorted when we try to make it responsive.
+// <center> elements are used for all the containers (instead of <div> or <p>) to center the emoji (especially the princess portrait).
+
+b.innerHTML = `
+
+  <!-- The top container sets the scene's perspective (53em) and center (12em from the top and the left of the screen) --> 
+  <center style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;perspective:53em;margin:12em>
+
+    <!-- The inner container (#s) is the scene. It is colored in blue to represent the water, and moved/rotated to be at its initial state -->
+    <center style=transform-style:preserve-3d;position:fixed;width:72em;height:53em;background:#19c;transform:translateZ(-80em)rotateX(55deg)rotateZ(50deg id=s>
+
+      <!-- The princess portrait is triangle, scaled up x2, and uses a <h1> and a <p> to give the emoji the right font-size and offset -->
+      <!-- It is placed above the door to hide the hole in the facade above the bridge: https://imgur.com/9FOKt4p -->
+      <h1 style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;background:#edd;clip-path:polygon(2em+0,0+4em,4em+4em);transform:translateX(16em)translateZ(11em)translateY(9em)rotateX(-90deg)scale(2>
+        <p>👸
+  
+      <!-- The door uses the same markup (h1 + p), and the same style except there's no triangle and a different position --> 
+      <h1 style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;background:#edd;transform:translateX(16em)translateZ(2em)translateY(6em)rotateX(-90deg)scale(2>
+        <p>🚪
+
+      <!-- Define an animation called a and apply it to the scene -->
+      <!-- The animation cancels the scene's "rotateZ(50deg)" every 9 seconds -->
+      <!-- The closing chars and tag are omitted to save bytes: ")}}</style>" -->
+      <!-- Adding "animation:a 9s infinite" to the inline style of the scene would have used more bytes because the spaces would have forced the use of quotes -->
+      <style>
+        #s{animation:a 9s infinite}
+        @keyframes a{50%{transform:translateZ(-80em)rotateX(55deg
+`;
+
+// Loop on all the chars of `m` using the counter `i`..
+for(i in b.bgColor = m = `055000000000000552055000000000000552000500067760005012210500066660005012210555554455555012210000004400000012210000004400000012211111111111113112222211111122220222222212222222100000222211111222000000222211111222000000222222222222000000`){
+
+  // Store the char converted into a number in `b`.
+  // If the char is not "0" (water), add a CSS3D cube in the scene.
+  if(b = +m[i])
+    s.innerHTML += `
+    
+      <!-- cube container, including height (scaleZ) and elevation (translateZ), plus a x1.1 scale on X and Y axis to make the cubes overlap. --> 
+      <center style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;transform:translateY(${4*(i/18|0)}em)translateX(${4*(i%18)}em)translateZ(${`00022000`[b]}em)scale(1.1)scaleZ(${[,.8,1,.2,.2,6,9,12][b]}>
+      
+        
+        <!-- Top face -->
+        <p style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;background:#${[,`ed7`,`0a0`,`da4`][b]||`cdd`};transform:translateZ(4em>
+        
+        <!-- Left face -->
+        <p style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;background:#${[,`ed7`,`0a0`,`da4`][b]||`cdd`};transform:rotateY(90deg)translate(-2em)translateZ(-2em>
+        
+        <!-- Right face -->
+        <p style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;background:#${[,`ed7`,`0a0`,`da4`][b]||`cdd`};transform:rotateY(90deg)translate(-2em)translateZ(2em>
+        
+        <!-- Front face (uses a lighter color palette to simulate lighting) -->
+        <p style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;background:#${[,`fe8`,`0c0`,`da4`][b]||`edd`};transform:rotateX(90deg)rotateZ(180deg)translateY(-2em)translateZ(-2em>`;
+
+  // If the char is "2" (grass) and i is a multiple on 7, add a tree.
+  // The trees are not exactly vertical (rotated -80deg instead of -90deg) to face the camera a bit more.
+  if(b == 2 & !(i % 7))
+    s.innerHTML += `
+      <center style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;transform:translateY(${4*(i/18|0)+1}em)translateX(${4*(i%18)+1}em)translateZ(9em)rotateX(-80deg)scale(2>
+        <h1>🌳
+    `;
+
+  // Use the 7 first iterations of the loop to draw the 7 roof pyramids.
+  if(i < 7)
+    s.innerHTML += `
+    
+      <!-- Pyramid container, with a custom position (translateX, translateY, translateZ), width (scaleX) and depth (scaleY)  -->
+      <center style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;transform:translateX(${[21,29,31.5,9,54,58,4][i]}em)translateY(${[0,4,6,14,14,-1,-1][i]}em)translateZ(${[27.5,39,51,27,27,28,28][i]}em)scaleX(${[13,5,3,2,2,3,3][i]})scaleY(${[6.9,4,3,2,2,3,3][i]})scaleZ(2>
+        
+        <!-- Flags above the last 4 pyramids -->
+        <p style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;transform:translateX(1.4em)translateZ(1em)rotateX(-90deg>${i>2?"🚩":""}
+        
+        <!-- Front face -->
+        <p style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;background:#b31;clip-path:polygon(2em+0,0+4em,4em+4em);transform:translateX(.95em)translateY(1em)rotateX(-60deg>
+        
+        <!-- Left face -->
+        <p style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;background:#b31;clip-path:polygon(2em+0,0+4em,4em+4em);transform:rotateY(-60deg)rotateZ(90deg>
+        
+        <!-- Right face (uses a darker shade of red to simulate lighting) -->
+        <p style=transform-style:preserve-3d;position:fixed;width:4em;height:4em;background:#a31;clip-path:polygon(2em+0,0+4em,4em+4em);transform:translateX(1.9em)rotateY(60deg)rotateZ(-90deg>
+    `;
+}
+</script>
