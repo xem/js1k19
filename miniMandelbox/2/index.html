@@ -1,0 +1,153 @@
+<!doctype html>
+<meta charset=utf-8>
+<body id=b>
+<canvas id=a width=500 height=500>
+<script>
+d = document;
+g = a.getContext('webgl');
+
+a.insertAdjacentHTML(
+  `afterEnd`,
+  ` <textarea hidden readonly id=c style=width:450px;height:495px;font-size:9px>` +
+  (
+    `// Mandelbox distance function
+float map(vec3 pos) {
+    vec4 p = vec4(pos,1);
+    vec4 p0 = p;
+    for (int i = 0; i < 20; i++) {
+        p.xyz = clamp(p.xyz, -1., 1.) * 2. - p.xyz;
+        float r2 = dot(p.xyz, p.xyz);
+        p *= clamp(max(.25 / r2, .25), 0., 1.);
+        p = p * (vec4(2.8, 2.8, 2.8, abs(2.8)) / .25) + p0;
+    }
+    return (length(p.xyz) - 1.) / p.w - pow(abs(2.8), -9.);
+}
+
+vec3 n(vec3 p) {
+	vec2 e = vec2(.001, 0);
+	return normalize(vec3(
+		map(p - e.xyy) - map(p + e.xyy),
+		map(p - e.yxy) - map(p + e.yxy),
+		map(p - e.yyx) - map(p + e.yyx)
+	));
+}
+
+// Ray marcher
+void mainImage(out vec4 o,vec2 c){
+  
+  // Adjust coordinates system
+  vec2 uv = c / iResolution.xx - iResolution.xy / iResolution.xx / 2.;
+  vec3 rd = normalize(vec3(uv, 1.));
+
+  // Starting point for the ray (eye position)
+  vec3 p = vec3(iCam.x, iCam.y, -10. + iCam.z);
+  
+  // Iterations
+  const float it = 999.;
+  
+  // Default color (black)
+  vec3 col = vec3(0.);
+  
+  // Iterate for each pixel
+  for (float i = .0; i < it; i++){
+    
+    // Compute remaining distance from ray to Mandelbox 
+    float dist = map(p);
+
+    // Choose a distance where the ray is close enough
+    if (dist < .001){
+      
+      // Set color according to the number of iterations
+      col = vec3(dot(n(p), vec3(0,0,1)));
+
+      // Stop
+      break;
+    }
+
+    // If ray is not close enough: advance the ray according to the remaining distance
+    p += rd * dist;
+	
+	if (p.z > 5.) break;
+  }
+
+  // Color the pixel
+  o.rgb = col;
+}`
+  )
+);
+for(i in g){
+  g[i[0] + i[6]] = g[i]
+}
+with(g){
+  (
+    e => {
+      h = FN,
+      vA(
+        p = cP(
+          i = e => {
+            sS(
+              s = cS(h++),
+              e
+            );
+            ce(s);
+            if (!g.getShaderParameter(s, g.COMPILE_STATUS)) {
+              g.getShaderInfoLog(s).trim().split("\n").forEach(ss =>
+              console.warn("[shader] " + ss))
+            };
+            aS(p, s);
+            return 1;
+          }
+        ),
+        2,
+        5120,
+        bD(
+          n = ET - 3,
+          Int8Array.of(
+            i(
+              `precision mediump float;uniform float iFrame;uniform vec2 iResolution;uniform vec4 iCam;\n`
+              + c.value
+              + `void main(){mainImage(gl_FragColor,gl_FragCoord.xy);gl_FragColor.w=1.;}`
+            ),
+            n,
+            !eV(
+              bf(
+                n,
+                cB(
+                  m = [j = 0, 0, 0, 0]
+                )
+              )
+            ),
+            i`attribute vec4 p;void main(){gl_Position=p;}`
+          ),
+          n + 82
+        ),
+        !lo(p),
+        ug(p)
+      ),
+      f = new Date / 1e3
+    }
+  )(),
+  
+  (l = e =>
+      uniform4f(gf(p, `iCam`), m[0], m[1], m[2], m[3])
+      |
+      uniform1f(gf(p, `iFrame`), j++)
+      | 
+      uniform2f(gf(p, `iResolution`), a.width, a.height)
+      |
+      dr(6,0,3)
+      |
+      requestAnimationFrame(l)
+  )()
+}
+
+onkeydown = function(e){
+  if(e.which == 37) m[0]-=.01;
+  if(e.which == 39) m[0]+=.01;
+  if(e.which == 38) m[1]-=.01;
+  if(e.which == 40) m[1]+=.01;
+  if(e.which == 87 || e.which == 90) m[2]+=.01;
+  if(e.which == 83) m[2]-=.01;
+}
+
+</script>
