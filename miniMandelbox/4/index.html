@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset=utf-8>
 <body id=b>
-<canvas id=a width=450 height=400>
+<canvas id=a width=500 height=500>
 <script>
 d = document;
 g = a.getContext('webgl');
@@ -12,13 +12,12 @@ k[90]=1;
 shader = `
 
 // Mandelbox distance function
-float m(vec3 pos) {
-    vec4 p = vec4(pos,1),
+float m(vec3 P) {
+    vec4 p = vec4(P,1),
     q = p;
     for (int i = 0; i < 35; i++) {
         p.xyz = clamp(p.xyz, -1., 1.) * 2. - p.xyz;
-        float r2 = dot(p.xyz, p.xyz);
-        p *= clamp(max(.25 / r2, .25), 0., 1.);
+        p *= clamp(max(.25 / dot(p.xyz, p.xyz), .25), 0., 1.);
         p = p * (vec4(2.8, 2.8, 2.8, 2.8) / .25) + q;
     }
     return (length(p.xyz) - 1.) / p.w - pow(abs(2.8), -9.);
@@ -37,7 +36,7 @@ vec3 n(vec3 p) {
 void M(out vec4 o,vec2 c){
   
   // Adjust coordinates system
-  vec3 r = normalize(vec3(c / R.xx - R.xy / R.xx / 2., 1.)),
+  vec3 r=normalize(vec3(c/500.-vec2(.5),1.)),
   
   // Starting point for the ray (eye position)
   p = vec3(C.x, C.y, -15. + C.z);
@@ -95,7 +94,7 @@ with(g){
           n = ET - 3,
           Int8Array.of(
             i(
-              `precision mediump float;uniform vec2 R;uniform vec4 C;\n`
+              `precision mediump float;uniform vec4 C;`
               + shader
               + `void main(){M(gl_FragColor,gl_FragCoord.xy);gl_FragColor.w=1.;}`
             ),
@@ -119,8 +118,7 @@ with(g){
   )(),
   
   (n = e => {
-      uniform4f(gf(p, `C`), m[0], m[1], m[2], m[3])
-      uniform2f(gf(p, `R`), a.width, a.height)
+      uniform4f(gf(p, `C`), m[0], m[1], m[2], m[3]);
       dr(6,0,3)
       //k=new Uint8Array(4)
       //g.readPixels(0,0,1,1,g.RGBA,g.UNSIGNED_BYTE,k)
