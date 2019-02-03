@@ -1,19 +1,16 @@
 <!doctype html>
 <meta charset=utf-8>
 <body id=b>
-<canvas id=a width=500 height=500>
+<canvas id=a width=450 height=400>
 <script>
 d = document;
-g = a.getContext('webgl2');
+g = a.getContext('webgl');
 
 
-var up = down = left = right = forward = backward = 0;
+up = down = left = right = backward = 0, forward = 1;
 
-a.insertAdjacentHTML(
-  `afterEnd`,
-  ` <textarea hidden readonly id=c style=width:450px;height:495px;font-size:9px>` +
-  (
-    `// Mandelbox distance function
+shader = `
+// Mandelbox distance function
 float map(vec3 pos) {
     vec4 p = vec4(pos,1);
     vec4 p0 = p;
@@ -46,7 +43,7 @@ void mainImage(out vec4 o,vec2 c){
   vec3 p = vec3(iCam.x, iCam.y, -15. + iCam.z);
   
   // Iterations
-  const float it = 9999.;
+  const float it = 999.;
   
   // Default color (black)
   vec3 col = vec3(0.);
@@ -56,8 +53,9 @@ void mainImage(out vec4 o,vec2 c){
     
     // Compute remaining distance from ray to Mandelbox 
     float dist = map(p);
+    
     // Choose a distance where the ray is close enough
-    if (dist < min(.01, max(1. / (iCam.z * 100.), .0001))){
+    if (dist < min(.01, max(1. / ((iCam.z) * 100.), .0001))){
       
       // Set color according to the number of iterations
       col = vec3(dot(n(p), vec3(0,0,1)));
@@ -79,8 +77,7 @@ void mainImage(out vec4 o,vec2 c){
 	o.r = map(iCam.xyz - vec3(0,0,15));
   }
 }`
-  )
-);
+
 for(i in g){
   g[i[0] + i[6]] = g[i]
 }
@@ -96,10 +93,6 @@ with(g){
               e
             );
             ce(s);
-            if (!g.getShaderParameter(s, g.COMPILE_STATUS)) {
-              g.getShaderInfoLog(s).trim().split("\n").forEach(ss =>
-              console.warn("[shader] " + ss))
-            };
             aS(p, s);
             return 1;
           }
@@ -110,8 +103,8 @@ with(g){
           n = ET - 3,
           Int8Array.of(
             i(
-              `precision mediump float;uniform float iFrame;uniform vec2 iResolution;uniform vec4 iCam;\n`
-              + c.value
+              `precision mediump float;uniform vec2 iResolution;uniform vec4 iCam;\n`
+              + shader
               + `void main(){mainImage(gl_FragColor,gl_FragCoord.xy);gl_FragColor.w=1.;}`
             ),
             n,
@@ -119,7 +112,7 @@ with(g){
               bf(
                 n,
                 cB(
-                  m = [-0.4400540540540543, 0.11305105105105107, 5, j=0]
+                  m = [-0.4400540540540543, 0.11305105105105107, 0]
                 )
               )
             ),
@@ -129,18 +122,13 @@ with(g){
         ),
         !lo(p),
         ug(p)
-      ),
-      f = new Date / 1e3
+      )
     }
   )(),
   
   (l = e => {
       uniform4f(gf(p, `iCam`), m[0], m[1], m[2], m[3])
-      
-      uniform1f(gf(p, `iFrame`), j++)
-      
       uniform2f(gf(p, `iResolution`), a.width, a.height)
-      
       dr(6,0,3)
       k=new Uint8Array(4)
       g.readPixels(0,0,1,1,g.RGBA,g.UNSIGNED_BYTE,k)
@@ -150,7 +138,7 @@ with(g){
       if(up) m[1] -= d/5; 
       if(down) m[1] += d/5; 
       if(forward) m[2] += d/5; 
-      if(backward && m[2] > .01) m[2] -= d/5; 
+      if(backward && m[2]>.1) m[2] -= d/5; 
 	  
       requestAnimationFrame(l)
 	  
@@ -158,11 +146,12 @@ with(g){
 }
 
 onkeydown = onkeyup = e => {
+  if(e.which == 87 || e.which == 90) forward = e.type[5];
+  else forward = 0;
   if(e.which == 37) left = e.type[5];
   if(e.which == 39) right = e.type[5];
   if(e.which == 38) up = e.type[5];
   if(e.which == 40) down = e.type[5];
-  if(e.which == 87 || e.which == 90) forward = e.type[5];
   if(e.which == 83) backward = e.type[5];
 }
 
