@@ -1,34 +1,35 @@
 <!doctype html>
 <meta charset=utf-8>
 <body id=b>
-<canvas id=a width=500 height=500>
+<canvas id=a width=500 height=500></canvas>
+<p>-5 <input type=range id=S min="-5" max="5" step="0.01" value=2.99 style=width:500px> 5
 <script>
 d = document;
 g = a.getContext('webgl');
 
 k = [];
-k[90]=1;
+//k[90]=1;
 
 shader = `
 
 // Mandelbox distance function
-float m(vec3 P) {
+float m(vec3 P, vec4 C) {
     vec4 p = vec4(P,1),
     q = p;
     for (int i = 0; i < 20; i++) {
         p.xyz = clamp(p.xyz, -1., 1.) * 2. - p.xyz;
         p *= clamp(max(.25 / dot(p.xyz, p.xyz), .25), 0., 1.);
-        p = p * (vec4(2.8) / .25) + q;
+        p = p * (vec4(C.w, C.w, C.w, abs(C.w)) / .25) + q;
     }
     return (length(p.xyz) - 1.) / p.w - pow(abs(2.8), -9.);
 }
 
-vec3 n(vec3 p) {
+vec3 n(vec3 p,vec4 C) {
 	vec2 e = vec2(.001, 0);
 	return normalize(vec3(
-		m(p - e.xyy) - m(p + e.xyy),
-		m(p - e.yxy) - m(p + e.yxy),
-		m(p - e.yyx) - m(p + e.yyx)
+		m(p - e.xyy, C) - m(p + e.xyy, C),
+		m(p - e.yxy, C) - m(p + e.yxy, C),
+		m(p - e.yyx, C) - m(p + e.yyx, C)
 	));
 }
 
@@ -45,13 +46,13 @@ void M(out vec4 o,vec2 c){
   for (float i = .0; i < 120.; i++){
     
     // Compute remaining distance from ray to Mandelbox 
-    float d = m(p);
+    float d = m(p,C);
     
     // Choose a distance where the ray is close enough
     if (d < min(.01, max(1. / ((C.z) * 100.), .001))){
       
       // Set color according to the number of iterations
-      o.rgb = vec3(dot(n(p), vec3(0,0,.95)));
+      o.rgb = vec3(dot(n(p,C), vec3(0,0,.95)));
 
       // Stop
       break;
@@ -84,6 +85,15 @@ with(g){
               e
             );
             ce(s);
+            
+            
+            if (!g.getShaderParameter(s, g.COMPILE_STATUS)) {
+              g.getShaderInfoLog(s).trim().split("\n").forEach(ss =>
+              console.warn("[shader] " + ss))
+              throw new Error("Error while compiling shader")
+            };
+            
+            
             aS(p, s);
             return 1;
           }
@@ -118,7 +128,7 @@ with(g){
   )(),
   
   (n = e => {
-      uniform4f(gf(p, `C`), m[0], m[1], m[2], m[3]);
+      uniform4f(gf(p, `C`), m[0], m[1], m[2], +S.value);
       dr(6,0,3)
       //k=new Uint8Array(4)
       //g.readPixels(0,0,1,1,g.RGBA,g.UNSIGNED_BYTE,k)
