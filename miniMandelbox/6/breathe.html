@@ -1,0 +1,142 @@
+<!doctype html>
+<meta charset=utf-8>
+<body id=b>
+<canvas id=a width=500 height=500>
+<script>
+d = document;
+g = a.getContext('webgl');
+
+k = [];
+k[90]=1;
+
+shader = `
+
+// Mandelbox distance function
+float m(vec3 P) {
+    vec4 p = vec4(P,1),
+    q = p;
+    for (int i = 0; i < 20; i++) {
+        p.xyz = clamp(p.xyz, -1., 1.) * 2. - p.xyz;
+        p *= clamp(max(.25 / dot(p.xyz, p.xyz), .25), 0., 1.);
+        p = p * (vec4(2.85 + cos(C.w / 15.)/20.) / .25) + q;
+    }
+    return (length(p.xyz) - 1.) / p.w - pow(abs(2.8), -9.);
+}
+
+vec3 n(vec3 p) {
+	vec2 e = vec2(.001, 0);
+	return normalize(vec3(
+		m(p - e.xyy) - m(p + e.xyy),
+		m(p - e.yxy) - m(p + e.yxy),
+		m(p - e.yyx) - m(p + e.yyx)
+	));
+}
+
+// Ray marcher
+void M(out vec4 o,vec2 c){
+  
+  // Adjust coordinates system
+  vec3 r=normalize(vec3(c/500.-vec2(.5),1.)),
+  
+  // Starting point for the ray (eye position)
+  p = vec3(C.x, C.y, -15. + C.z);
+  
+  // Iterate for each pixel
+  for (float i = .0; i < 120.; i++){
+    
+    // Compute remaining distance from ray to Mandelbox 
+    float d = m(p);
+    
+    // Choose a distance where the ray is close enough
+    //if (d < min(.01, max(1. / ((C.z) * 100.), .001))){
+    if (d < .001){
+      
+      // Set color according to the number of iterations
+      o.rgb = vec3(dot(n(p), vec3(0,0,.95)));
+
+      // Stop
+      break;
+    }
+
+    // If ray is not close enough: advance the ray according to the remaining distance
+    p += r * d;
+	
+    //if (p.z > 5.) break;
+  }
+
+  // Color the pixel
+  //if (gl_FragCoord.x < 1. && gl_FragCoord.y < 1.) {
+	//o.r = map(C.xyz - vec3(0,0,30));
+  //}
+}`
+
+for(i in g){
+  g[i[0] + i[6]] = g[i]
+}
+with(g){
+  (
+    e => {
+      h = FN,
+      vA(
+        p = cP(
+          i = e => {
+            sS(
+              s = cS(h++),
+              e
+            );
+            ce(s);
+            aS(p, s);
+            return 1;
+          }
+        ),
+        2,
+        5120,
+        bD(
+          n = ET - 3,
+          Int8Array.of(
+            i(
+              `precision mediump float;uniform vec4 C;`
+              + shader
+              + `void main(){M(gl_FragColor,gl_FragCoord.xy);gl_FragColor.w=1.;}`
+            ),
+            n,
+            !eV(
+              bf(
+                n,
+                cB(
+                  m = [-0.44, 0.11, 0,0]
+                )
+              )
+            ),
+            i`attribute vec4 p;void main(){gl_Position=p;}`
+          ),
+          n + 82
+        ),
+        !lo(p),
+        ug(p)
+      )
+    }
+  )(),
+  
+  onkeydown = onkeyup = e => {
+    k[e.which] = e.type[5];
+  }
+  
+  setInterval(e => {
+      uniform4f(gf(p, `C`), m[0], m[1], m[2], m[3]++);
+      dr(6,0,3)
+      //k=new Uint8Array(4)
+      //g.readPixels(0,0,1,1,g.RGBA,g.UNSIGNED_BYTE,k)
+      //e = k[0]/999+.01
+      e = Math.max(.015, (10 - m[2]) / 30) * 2;
+      if(k[37]) m[0] -= e/5; 
+      if(k[39]) m[0] += e/5 
+      if(k[40]) m[1] -= e/5; 
+      if(k[38]) m[1] += e/5; 
+      if(k[87] || k[90]) m[2] += e/5; 
+      if(k[83] && m[2]>.1) m[2] -= e/5;
+      
+  },33);
+}
+
+</script>

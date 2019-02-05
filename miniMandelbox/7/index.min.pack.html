@@ -1,0 +1,10 @@
+<!doctype html>
+<meta charset=utf-8>
+<body id=b>
+<canvas id=a width=500 height=500>
+<script>
+c = a.getContext('webgl');
+
+onload=function(){for(i in c)c[i[0]+i[6]]=c[i];with(c)h=FN,vA(p=cP(i=(o=>(sS(s=cS(h++),o),ce(s),aS(p,s),1))),2,5120,bD(ET-3,Int8Array.of(i`precision highp float;uniform vec3 C;void main(){vec3 p=C;for(float i=.0;i<99.;i++){vec4 o=vec4(p,1),q=o;for(float j=0.;j<30.;j++){o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz;o=o*clamp(max(.25/dot(o.xyz,o.xyz),.25),0.,1.)*11.2+q;}if((length(o.xyz)-1.)/o.w-5e-4<5e-4)break;p+=normalize(vec3(gl_FragCoord.xy/5e2-.5,1))*((length(o.xyz)-1.)/o.w-5e-4);gl_FragColor=vec4(1.-i/50.-normalize(o.xyz)*.25,1);}}`,ET-3,!eV(bf(ET-3,cB(m=[0,0,-5]))),i`attribute vec4 p;void main(){gl_Position=p;}`),ET-3+82),!lo(p),ug(p)),(n=(o=>(uniform3f(gf(p,"C"),...m),dr(6,0,3),L=37,c[L++]&&(m[L%2]-=Math.max(.015,(10-m[2])/30)/9),c[L++]&&(m[L%2]+=Math.max(.015,(10-m[2])/30)/9),c[L++]&&(m[L%2]+=Math.max(.015,(10-m[2])/30)/9),c[L++]&&(m[L%2]-=Math.max(.015,(10-m[2])/30)/9),(c[87]||c[90])&&(m[2]+=Math.max(.015,(10-m[2])/30)/9),c[83]&&(m[2]-=Math.max(.015,(10-m[2])/30)/9),requestAnimationFrame(n))))(onkeydown=onkeyup=(o=>c[o.which]=o.type[5]))}
+
+</script>
