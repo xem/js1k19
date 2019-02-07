@@ -58,7 +58,7 @@ enemy = 24,    // The first enemy's X position (Y is constant: 10)
 // Helpers
 // -------
 // This function adds a pipe (id = 4) on the map at a given top-left position.
-// The pipe will be 2px wide and as high as high as needed to touch the ground at y = 11.
+// The pipe will be 2px wide and as high as needed to touch the ground at y = 11.
 pipe = (y,x) => {
   for(Y = 11; Y-- > y;){
     map[Y][x] = map[Y][x+1] = 4;
@@ -149,7 +149,7 @@ stair(6, 155, 1);
 // Input
 // -----
 // Every time a key is pressed (onkeydown), the corresponding flag is set to "w" (the 5th char of e.type = "keydown")
-// Every time a key is released (onkeydown), it is set to "undefined" (the 5th char of e.type = "keyup")
+// Every time a key is released (onkeyup), it is set to "undefined" (the 5th char of e.type = "keyup")
 // Those flags can be tested as if they were booleans because "w" is truthy and undefined is falsy.
 onkeydown = onkeyup = e => self['lur'[e.which - 37]] = e.type[5];
 
@@ -167,7 +167,7 @@ z = setInterval(
     // If the distance between the enemy and Mario is smaller than 1px:
     if(Math.hypot(enemy - x, 10 - y) < 1){
 
-      // If Mario is jumping, "kill" the enemy by moving it 7px to the left, out of the viewport.
+      // If Mario is jumping, "kill" the enemy by moving it at x=-1px, out of the viewport.
       if(grounded){
         enemy = -1;
         vy = -.2;
@@ -207,12 +207,12 @@ z = setInterval(
     }
 
     // Mario jumps if `u` is set and if Mario is currently touching the ground.
-    // The jump is made by setting his vertical speed to -6 pixels/frame.
+    // The jump is made by setting his vertical speed to -.25 pixels/frame.
     if(u && !grounded){
       vy = -.25;
     }
 
-    // Add gravity to Mario's vertical position and vertical speed.
+    // Add gravity (.012px/frame) to Mario's vertical speed and the vertical speed to the vertical position.
     vy += .012;
     y += vy;
 
@@ -233,10 +233,10 @@ z = setInterval(
       }
     }
 
-    // If Mario died on the enemy, dies by falling in a hole, or wins by touching the flag, return to title screen
+    // If Mario dies by falling in a hole, or wins by touching the flag, game over
     if(y > 14 || x > 198) end = 1;
 
-    // Stop Mario's fall when its bottom-left corner or bottom-right corner touches a solid block.
+    // Stop Mario's fall when his bottom-left corner or bottom-right corner touches a solid block.
     // He is considered "grounded" and the "up" flag is unset to avoid jumping again immediately.
     // Though, Mario will continue jumping as long as no other key is pressed because the onkeydown event will be fired continuously.
     grounded = u = !(collision(x, y + 1) | collision(x + .5, y + 1));
