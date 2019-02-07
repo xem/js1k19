@@ -23,7 +23,7 @@ a.height = 13 * 9;
 // A 1260 bytes wip version with more detailed graphics is visible here: https://twitter.com/MaximeEuziere/status/1063763918756163585
 
 // Every sprite of the game is reduced to a colored pixel.
-// The game features a 211*15px map, and shown on a 15*13px viewport, but it is scaled up 8 times to be easier to watch.
+// The game features a 211*15px map, and shown on a 15*13px viewport, but it is scaled up 9 times to be easier to watch.
 // All the map's pixels are represented with different numbers, or "id"'s, and drawn with different colors:
 // - 0: sky
 // - 1: ground block / stairs / flag basis
@@ -156,7 +156,7 @@ onkeydown = onkeyup = e => self['lur'[e.which - 37]] = e.type[5];
 
 // Game loop
 // ---------
-setInterval(
+z = setInterval(
 
   // The game is updated and the canvas is redrawn every 9ms:
   e => {
@@ -252,7 +252,7 @@ setInterval(
     for(i = 13; i--;){
       for(j = 999; j--;){
 
-        // This commented code would have drawn all the clouds in white if there was enough bytes left.
+        // This commented code would have drawn all the clouds in white if there were enough bytes left.
         /*
         if(j%48 == 9){
           c.fillStyle=`#fff`;
@@ -304,12 +304,9 @@ setInterval(
     if(intro){
       c.fillStyle = `#000`;
       c.fillRect(0, 0, 999, 999);
-      //c.fillStyle = `#fff`;
-      //c.fillText("1-1", 60, 60);
       intro--;
     }
-  }
-  ,9
+  }, 9
 )
 
 // After minification, some manual optimizations were added:
