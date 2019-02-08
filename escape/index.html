@@ -1,0 +1,164 @@
+﻿<body id=b>
+
+<script>
+
+// Windows-1252 map (chars 80 to 9F)
+windows1252 =  {
+'0':'\u20AC',
+'1':'\x81',
+'2':'\u201A',
+'3':'\u0192',
+'4':'\u201E',
+'5':'\u2026',
+'6':'\u2020',
+'7':'\u2021',
+'8':'\u02C6',
+'9':'\u2030',
+'10':'\u0160',
+'11':'\u2039',
+'12':'\u0152',
+'13':'\x8D',
+'14':'\u017D',
+'15':'\x8F',
+'16':'\x90',
+'17':'\u2018',
+'18':'\u2019',
+'19':'\u201C',
+'20':'\u201D',
+'21':'\u2022',
+'22':'\u2013',
+'23':'\u2014',
+'24':'\u02DC',
+'25':'\u2122',
+'26':'\u0161',
+'27':'\u203A',
+'28':'\u0153',
+'29':'\x9D',
+'30':'\u017E',
+'31':'\u0178'
+}
+
+b.innerHTML = `
+<p>Plain text
+<p><textarea id=a cols=75>a©€💩</textarea>
+<div id=O>`;
+
+(oninput = function(){
+
+O.innerHTML = `
+
+<p>Code points
+<p><input size=99 id=c>
+
+<p>HTML entities
+<p><input size=99 id=d>
+<p><input size=99 id=e>
+
+<p>JS / ES6 escape
+<p><input size=99 id=f>
+<p><input size=99 id=g>
+
+<p>URI
+<p><input size=99 id=h>
+
+<p>UTF-8 hex / base64
+<p><input size=99 id=j>
+<p><input size=99 id=k>
+
+<p>UTF-16 BE hex / base64
+<p><input size=99 id=l>
+<p><input size=99 id=m>
+
+<p>UTF-16 LE hex / base64
+<p><input size=99 id=n>
+<p><input size=99 id=o>
+
+<p>UTF-32 BE hex / base64
+<p><input size=99 id=q>
+<p><input size=99 id=r>
+
+<p>UTF-32 LE hex / base64
+<p><input size=99 id=s>
+<p><input size=99 id=u>
+
+<p>Windows-1252 compatible text / hex / base64
+<p><input size=99 id=w>
+<p><input size=99 id=x>
+<p><input size=99 id=B>
+
+<p>Windows-1252 to UTF-8 mojibake
+<p><input size=99 id=C>
+
+<p>UTF-8 to Windows-1252 mojibake
+<p><input size=99 id=D>
+
+<p>Latin-1 compatible text / hex / base64
+<p><input size=99 id=>
+<p><input size=99 id=>
+<p><input size=99 id=>
+
+<p>Latin-1 to UTF-8 mojibake
+<p><input size=99 id=>
+
+<p>UTF-8 to Latin-1 mojibake
+<p><input size=99 id=>
+
+<style>*{font:1em arial}#a{background:#fed}
+
+`;
+
+
+v = a.value;
+t = [...v];
+
+// Loop on UTF-32 BE code points
+for(i of t){
+  p = i.codePointAt();
+  z = encodeURIComponent(i);
+  c.value += "U+" + ("0000000" + p.toString(16)).slice(p > 0xFFFF ? -5 : -4) + " ";
+  d.value += "&#" + p + ";";
+  e.value += "&#x" + p.toString(16) + ";";
+  g.value += "\\u{" + p.toString(16) + "}";
+  h.value += z;
+  j.value += z.length > 1 ? z.replace(/%(..)/g, '$1 ') : ("0000000" + p.toString(16)).slice(-2) + " ";
+  q.value += ("0000000" + p.toString(16)).slice(-8) + " ";
+  
+  // Windows-1252 compatible glyphs
+  if(p < 0x80 || (p > 0x9F && p < 0x100)){
+    w.value += i;
+    x.value += ("0000000" + p.toString(16)).slice(-2) + " ";
+    B.value += String.fromCodePoint(p);
+  }
+  else {
+    for(I in windows1252){
+      if(windows1252[I] == i){
+        w.value += i;
+        x.value += ("0000000" + (128+ +I).toString(16)).slice(-2) + " ";
+        B.value += String.fromCodePoint(128 + +I);
+      }
+    }	
+  }
+}
+
+B.value = btoa(B.value);
+
+k.value = btoa(j.value.replace(/.. /g, a => String.fromCodePoint(parseInt(a,16))));
+r.value = btoa(q.value.replace(/(..)(..)(..)(..) /g, (a,b,c,d,e)=> {return String.fromCodePoint(parseInt(b,16)) + String.fromCodePoint(parseInt(c,16)) + String.fromCodePoint(parseInt(d,16)) + String.fromCodePoint(parseInt(e,16));}));
+s.value = q.value.replace(/(..)(..)(..)(..) /g, "$4$3$2$1 ");
+u.value = btoa(s.value.replace(/(..)(..)(..)(..) /g, (a,b,c,d,e)=> {return String.fromCodePoint(parseInt(b,16)) + String.fromCodePoint(parseInt(c,16)) + String.fromCodePoint(parseInt(d,16)) + String.fromCodePoint(parseInt(e,16));}));
+
+// Loop on UTF-16 BE char codes
+for(i in v){
+  p = v[i].codePointAt();
+  f.value += "\\u" + ("0000000" + p.toString(16)).slice(-4);
+  l.value += ("0000000" + p.toString(16)).slice(-4) + " ";
+}
+
+m.value = btoa(l.value.replace(/(..)(..) /g, (a,b,c)=> {return String.fromCodePoint(parseInt(b,16)) + String.fromCodePoint(parseInt(c,16));}));
+n.value = l.value.replace(/(..)(..) /g, "$2$1 ");
+o.value = btoa(n.value.replace(/(..)(..) /g, (a,b,c)=> {return String.fromCodePoint(parseInt(b,16)) + String.fromCodePoint(parseInt(c,16));}));
+
+
+
+})()
+</script>
