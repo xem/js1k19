@@ -39,52 +39,20 @@ for(i of t = [...v = a.value]){
   // Windows-1252:
   // all ASCII chars (U+00 to U+7F) and chars U+A0 to U+FF, are similar to Unicode.
   // chars U+80 to U+9F use these glyphs: `€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œž`.
+  // chars > U+FF are ignored
   
-    W = `€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œž`;
-    
-    // Compatible text 
-    w.value += W.includes(i) ? i : p < 0x100 ? i : ``;
-    
-    // Hex
-    x.value += W.includes(i) ? (W.indexOf(i) + 128).toString(16).padStart(2,0) + ` ` : p < 0x100 ? p.toString(16).padStart(2,0) + ` ` : ``;
-    
-    // Latin-1 char (for base64 conversion)
-    B.value += W.includes(i) ? String.fromCodePoint(W.indexOf(i) + 128) : p < 0x100 ? String.fromCodePoint(p) : ``;
-    // For 
-    /*if(p < 0x80 || (p > 0x9F && p < 0x100)){
-    
-      // Add char in `compatible text`.
-      w.value += i;
+  W = `€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œž`;
+  
+  // Compatible text 
+  w.value += W.includes(i) ? i : p < 0x100 ? i : ``;
+  
+  // Hex
+  x.value += W.includes(i) ? (W.indexOf(i) + 128).toString(16).padStart(2,0) + ` ` : p < 0x100 ? p.toString(16).padStart(2,0) + ` ` : ``;
+  
+  // Latin-1 char (for base64 conversion)
+  B.value += W.includes(i) ? String.fromCodePoint(W.indexOf(i) + 128) : p < 0x100 ? String.fromCodePoint(p) : ``;
 
-      // Add its padded code point in `hex`.
-      x.value += p.toString(16).padStart(2,0) + ` `;
-      
-      // Add its code point encoded in latin-1 in the base64 field.
-      B.value += String.fromCodePoint(p);
-    }
     
-    // For 
-    else {
-      
-      // Loop on all glyphs of W using `I`:
-      for(I in W = `€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ`){
-        
-        // If the glyph is present in W:
-        if(W[I] == i){
-          
-          // Add it to `compatible text`.
-          w.value += i;
-          
-          // Add its padded code point in `hex`.
-          x.value += (+I+128).toString(16).padStart(2,0) + ` `;
-          
-          // Add its code point encoded in latin-1 in the base64 field.
-          B.value += String.fromCodePoint(+I+128);
-        }
-      }	
-    }*/
-    
-    // chars > U+FF are ignored
 }
 
 // Encode the latin-1 string in base64.
@@ -129,12 +97,5 @@ o.value = btoa(n.value.replace(/(..)(..) /g, (a,b,c,d,e) => String.fromCodePoint
 
 // XHR the UTF-8 string encoded in base64, with a Windows-1252 charset to see how it is interpreted as Windows-1252. 
 with(new XMLHttpRequest){open(`GET`, `data:;base64,` + k.value, !1), send(), D.value = responseText};
-
-// UTF-8 read as Windows-1252
-/*D.value = j.value.replace(/.. /g, a => 
-  ((p = parseInt(a,16)) < 0x80 || (p > 0x9F && p < 0x100))
-  ? String.fromCodePoint(p)
-  : W[p - 128]
-);*/
 
 })()
