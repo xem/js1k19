@@ -1,0 +1,134 @@
+<!doctype html>
+<meta charset=utf-8>
+<body id=b>
+<canvas id=a width=500 height=500>
+<script>
+c = a.getContext('webgl');
+
+/*
+
+Lookup, so I don't go insane
+
+FN - FRAGMENT_SHADER
+ET - GL_ELEMENT_ARRAY_BUFFER_BINDING (GL_ARRAY_BUFFER + 3)
+
+eV - enableVertexAttribArray
+vA - vertexAttribPointer
+
+bD - bufferData
+bf - bindBuffer
+cB - createBuffer
+
+cP - createProgram
+lo - linkProgram
+ug - useProgram
+
+sS - shaderSource
+ce - compileShader
+aS - attachShader
+
+------------------------------------
+--------| Crush with 2/1/0 |--------
+------------------------------------
+
+*/
+
+for(i in c)c[i[0]+i[6]]=c[i];
+with(c)
+  (e => {
+    h = FN,
+    vA(
+    
+      
+      // Golf
+      //p = cP(i=e=>(sS(s=cS(h++),e),ce(s),aS(p,s),1)),
+      
+      
+      
+      // Debug
+      p = cP(
+        i = e => {
+          sS(
+            s = cS(h++),
+            e
+          );
+          ce(s);
+          
+          if (!c.getShaderParameter(s, c.COMPILE_STATUS)) {
+            c.getShaderInfoLog(s).trim().split("\n").forEach(ss =>
+            console.warn("[shader] " + ss))
+            throw new Error("Error while compiling shader")
+          };
+          
+          aS(p, s);
+          return 1;
+        }
+      ),
+      
+      
+      2,
+      5120,
+      bD(
+        ET-3,
+        Int8Array.of(
+          i`
+          
+          
+precision highp float;uniform vec3 C,R;
+void main(){
+  vec3 p=C;
+  vec3 d = normalize(vec3(gl_FragCoord.xy/5e2-.5,1));
+  float a = R.x;
+  d.yz *= mat2(cos(a), -sin(a), sin(a), cos(a));
+  a = R.y;
+  d.xz *= mat2(cos(a), -sin(a), sin(a), cos(a));
+  
+  for(float i=.0;i<99.;i++){
+    vec4 o=vec4(p,1),q=o;
+    
+    for(float j=0.;j<30.;j++){
+      o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz;
+      o=o*clamp(max(.25/dot(o.xyz,o.xyz),.25),0.,1.)*11.2+q;
+    }
+    if((length(o.xyz)-1.)/o.w-5e-4<5e-4)break;
+    p+=d*((length(o.xyz)-1.)/o.w-5e-4);
+    gl_FragColor=vec4(1.-i/50.-normalize(o.xyz)*.25,1);
+  }
+}
+
+
+`,
+          ET-3,
+          !eV(bf(ET-3, cB(m=[-0.44, 0.11, -15]))),
+          i`attribute vec4 p;void main(){gl_Position=p;}`
+        ),
+        ET-3+82
+      ),
+      !lo(p),
+      ug(p)
+    )
+  })(),
+  
+(
+  n = e =>
+    (
+      uniform3f(gf(p,`C`),...m),
+      uniform3f(gf(p,`R`), c.pitch, c.yaw, 0),
+      dr(6,0,3),
+      (L = 37),
+      e = Math.max(.015, (-5 - m[2]) / 30) * 2,
+      (c[L++])&&(m[L%2]-=e/5),
+      (c[L++])&&(m[L%2]+=e/5),
+      (c[L++])&&(m[L%2]+=e/5),
+      (c[L++])&&(m[L%2]-=e/5),
+      (c[87]||c[90])&&(m[2]+=e/5),
+      (c[83])&&(m[2]-=e/5),
+      requestAnimationFrame(n)
+    )
+)(
+  onkeydown = onkeyup = e => c[e.which] = e.type[5],
+  onmousemove = e => (c.yaw = (innerWidth / 2 - e.pageX) / innerWidth * 7 - 1.7,c.pitch=(e.pageY - innerHeight / 2) / innerHeight * 7 - 1.7)
+)
+c[90] = 1;
+
+</script>

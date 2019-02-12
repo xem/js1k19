@@ -1,0 +1,10 @@
+<!doctype html>
+<meta charset=utf-8>
+<body id=b>
+<canvas id=a width=500 height=500>
+<script>
+c = a.getContext('webgl');
+
+for(i in c)c[i[J=0]+i[6]]=c[i];with(c)h=FN,vA(p=cP(i=(n=>(sS(s=cS(h++),n),ce(s),aS(p,s),1))),2,5120,bD(ET-3,Int8Array.of(i(Z=`precision highp float;uniform vec3 C,R;void main(){vec3 p=C;vec3 d=normalize(vec3(gl_FragCoord.xy/5e2-.5,1));float a=R.x;d.yz*=mat2(cos(a),-sin(a),sin(a),cos(a));a=R.y;d.xz*=mat2(cos(a),-sin(a),sin(a),cos(a));for(float i=.0;i<99.;i++){vec4 o=vec4(p,1),q=o;for(float j=0.;j<30.;j++){o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz;o=o*clamp(max(.25/dot(o.xyz,o.xyz),.25),0.,1.)*11.2+q;}if((length(o.xyz)-1.)/o.w-5e-4<5e-4)break;p+=d*((length(o.xyz)-1.)/o.w-5e-4);gl_FragColor=vec4(1.-i/50.-normalize(o.xyz)*.25,1);}}`),ET-3,!eV(bf(ET-3,cB(m=[-.44,.11,-15]))),i`attribute vec4 p;void main(){gl_Position=p;}`),ET-3+82),!lo(p),ug(p)),(n=(o=>(uniform3f(gf(p,"C"),...m),uniform3f(gf(p,"R"),c.P,c.Y,0),dr(6,0,3),L=38,o=2*Math.max(.015,(-5-m[2])/30),c[38]&&(m[0]+=o*Math.sin(-c.Y)*Math.cos(c.P),m[1]-=o*Math.sin(c.P),m[2]+=o*Math.cos(c.P)*Math.cos(-c.Y)),o=2*-Math.max(.015,(-5-m[2])/30),c[40]&&(m[0]+=o*Math.sin(-c.Y)*Math.cos(c.P),m[1]-=o*Math.sin(c.P),m[2]+=o*Math.cos(c.P)*Math.cos(-c.Y)),requestAnimationFrame(n))))(onkeydown=onkeyup=(n=>c[n.which]=n.type[5]),onmousemove=(n=>(c.Y=(innerWidth/2-n.pageX)/innerWidth*7-1.7,c.P=(n.pageY-innerHeight/2)/innerHeight*7-1.7)),onclick=(n=>{J||(J=1,K=new AudioContext,N=K.createScriptProcessor(512,1,1),S=K.createBufferSource(),N.onaudioprocess=(n=>{for(i=512;i--;)n.outputBuffer.getChannelData(0)[i]=Math.sin(i*Z.charCodeAt(performance.now()/200%Z.length)/999)/99}),N.connect(K.destination))}))
+
+</script>

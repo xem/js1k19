@@ -1,0 +1,166 @@
+<!doctype html>
+<meta charset=utf-8>
+<body id=b style=margin:0 bgcolor=0>
+<canvas id=a width=500 height=500>
+<script>
+c = a.getContext('webgl');
+
+/*
+
+Lookup, so I don't go insane
+
+FN - FRAGMENT_SHADER
+ET - GL_ELEMENT_ARRAY_BUFFER_BINDING (GL_ARRAY_BUFFER + 3)
+
+eV - enableVertexAttribArray
+vA - vertexAttribPointer
+
+bD - bufferData
+bf - bindBuffer
+cB - createBuffer
+
+cP - createProgram
+lo - linkProgram
+ug - useProgram
+
+sS - shaderSource
+ce - compileShader
+aS - attachShader
+
+------------------------------------
+--------| Crush with 2/1/0 |--------
+------------------------------------
+
+*/
+
+for(i in c)c[i[J=0]+i[6]]=c[i];
+c.Y=c.P=0;
+with(c)with(Math)
+	(e => {
+		h = FN,
+			vA(
+				p = cP(
+					i = e => (
+						sS(
+							s = cS(h++),
+							e
+						),
+						ce(s),
+						aS(p, s),
+						1
+					)
+				),
+
+
+				2,
+				5120,
+				bD(
+					ET - 3,
+					Int8Array.of(
+						i(Z = `
+
+            
+precision highp float;uniform vec3 C,R,Q;
+void main(){
+	vec3 p=C;
+	vec3 d = normalize(vec3(gl_FragCoord.xy/5e2-.5,1));
+	float a = R.x;
+	d.yz *= mat2(cos(a), -sin(a), sin(a), cos(a));
+	a = R.y;
+	d.xz *= mat2(cos(a), -sin(a), sin(a), cos(a));
+	gl_FragColor=vec4(0,0,0,1);
+	for(float i=.0;i<99.;i++){
+		vec2 e=vec2(5e-4,0);
+		vec4 o=vec4(p+e.xyy,1),q=o;
+		
+		for(float j=0.;j<9.;j++){
+			o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz;
+			o=o*clamp(max(.25/dot(o.xyz,o.xyz),.25),0.,1.)*11.2+q;
+		}
+		float A=((length(o.xyz)-1.)/o.w-5e-4);
+		o=vec4(p-e.xyy,1),q=o;
+		
+		for(float j=0.;j<9.;j++){
+			o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz;
+			o=o*clamp(max(.25/dot(o.xyz,o.xyz),.25),0.,1.)*11.2+q;
+		}
+		float B=((length(o.xyz)-1.)/o.w-5e-4);
+		o=vec4(p+e.yxy,1),q=o;
+		
+		for(float j=0.;j<9.;j++){
+			o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz;
+			o=o*clamp(max(.25/dot(o.xyz,o.xyz),.25),0.,1.)*11.2+q;
+		}
+		float C=((length(o.xyz)-1.)/o.w-5e-4);
+		o=vec4(p-e.yxy,1),q=o;
+		
+		for(float j=0.;j<9.;j++){
+			o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz;
+			o=o*clamp(max(.25/dot(o.xyz,o.xyz),.25),0.,1.)*11.2+q;
+		}
+		float D=((length(o.xyz)-1.)/o.w-5e-4);
+		o=vec4(p+e.yyx,1),q=o;
+		
+		for(float j=0.;j<9.;j++){
+			o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz;
+			o=o*clamp(max(.25/dot(o.xyz,o.xyz),.25),0.,1.)*11.2+q;
+		}
+		float E=((length(o.xyz)-1.)/o.w-5e-4);
+		o=vec4(p-e.yyx,1),q=o;
+		
+		for(float j=0.;j<9.;j++){
+			o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz;
+			o=o*clamp(max(.25/dot(o.xyz,o.xyz),.25),0.,1.)*11.2+q;
+		}
+		float F=((length(o.xyz)-1.)/o.w-5e-4);
+		if((length(o.xyz)-1.)/o.w-5e-4<5e-4){gl_FragColor=vec4((1.-i/50.)*dot(normalize(vec3(B-A,D-C,F-E)),Q)-normalize(o.xyz)*.25,1);break;}
+		p+=d*((length(o.xyz)-1.)/o.w-5e-4);
+		
+		
+	}
+}
+
+
+`),
+						ET - 3,
+						!eV(bf(ET - 3, cB(m = [-.44, .11, 5]))),
+						i `attribute vec4 p;void main(){gl_Position=p;}`
+					),
+					ET - 3 + 82
+				),
+				!lo(p),
+				ug(p)
+			)
+	})(),
+
+	(
+		n = e =>
+		(
+			uniform3f(gf(p, `Q`), sin(-c.Y) * cos(c.P), -sin(c.P), cos(c.P) * cos(-c.Y)),
+			uniform3f(gf(p, `C`), ...m),
+			uniform3f(gf(p, `R`), c.P, c.Y, 0),
+			dr(6, 0, 3),
+			e = .002,
+			c[38] && (m[0] += e * sin(-c.Y) * cos(c.P), m[1] -= e * sin(c.P), m[2] += e * cos(c.P) * cos(-c.Y)),
+			e = -e,
+			c[40] && (m[0] += e * sin(-c.Y) * cos(c.P), m[1] -= e * sin(c.P), m[2] += e * cos(c.P) * cos(-c.Y)),
+			setTimeout(n,16)
+		)
+	)(
+		onkeydown = onkeyup = e => c[e.which] = e.type[5],
+		onclick = e => (
+			J || (
+				J = 1,
+				(N = (K = new AudioContext).createScriptProcessor(512, 1, 1)).onaudioprocess = e => {
+					for (i = 512; i--;)
+						e.outputBuffer.getChannelData(0)[i] = sin(i * Z.charCodeAt((Date.now() / 200) % Z.length) / 999) / 99
+				},
+				N.connect(K.destination),
+        onmousemove = e => (c.Y -= e.movementX/150, c.P += e.movementY/150)
+			)
+		)
+	)
+  
+  c[40]=1;
+
+</script>
