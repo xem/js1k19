@@ -12,6 +12,9 @@
 // and remarked that both piano and guitar synthesizers could fit in less than 512 bytes: https://twitter.com/MaximeEuziere/status/1071490262772404224
 // I merged them and added an UI to make this demo.
 
+b.style.margin="1em";
+b.style.font="1em Arial";
+
 // Play a note
 // -----------
 n = e => {
@@ -106,7 +109,7 @@ for(i = 0; i < 36; i++){
     <div style='width:30px;height:200px;float:left;border:1px solid;cursor:pointer;left:${
       
       // The left offset of each black note
-      i / 2 * 37 + 4
+      i / 2 * 37.5 + 8
     
     }px;${
       

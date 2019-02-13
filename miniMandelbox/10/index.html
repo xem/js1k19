@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset=utf-8>
 <body id=b style=margin:0 bgcolor=0>
-<canvas id=a width=500 height=500>
+<center><canvas id=a width=500 height=500 style=cursor:none>
 <script>
 c = a.getContext('webgl');
 
@@ -57,7 +57,7 @@ with(c)with(Math)
 				bD(
 					ET - 3,
 					Int8Array.of(
-						i(Z = `
+						i`
 
             
 precision highp float;uniform vec3 C,R,Q;
@@ -121,46 +121,48 @@ void main(){
 }
 
 
-`),
-						ET - 3,
-						!eV(bf(ET - 3, cB(m = [-.44, .11, 5]))),
-						i `attribute vec4 p;void main(){gl_Position=p;}`
-					),
-					ET - 3 + 82
-				),
-				!lo(p),
-				ug(p)
-			)
-	})(),
+`,
+          ET - 3,
+          !eV(bf(ET - 3, cB(m = [-.44, .11, 4.2]))),
+          i `attribute vec4 p;void main(){gl_Position=p;}`
+        ),
+        ET - 3 + 82
+      ),
+      !lo(p),
+      ug(p)
+    )
+})(),
 
-	(
-		n = e =>
-		(
-			uniform3f(gf(p, `Q`), sin(-c.Y) * cos(c.P), -sin(c.P), cos(c.P) * cos(-c.Y)),
-			uniform3f(gf(p, `C`), ...m),
-			uniform3f(gf(p, `R`), c.P, c.Y, 0),
-			dr(6, 0, 3),
-			e = .002,
-			c[38] && (m[0] += e * sin(-c.Y) * cos(c.P), m[1] -= e * sin(c.P), m[2] += e * cos(c.P) * cos(-c.Y)),
-			e = -e,
-			c[40] && (m[0] += e * sin(-c.Y) * cos(c.P), m[1] -= e * sin(c.P), m[2] += e * cos(c.P) * cos(-c.Y)),
-			setTimeout(n,16)
-		)
-	)(
-		onkeydown = onkeyup = e => c[e.which] = e.type[5],
-		onclick = e => (
-			J || (
-				J = 1,
-				(N = (K = new AudioContext).createScriptProcessor(512, 1, 1)).onaudioprocess = e => {
-					for (i = 512; i--;)
-						e.outputBuffer.getChannelData(0)[i] = sin(i * Z.charCodeAt((Date.now() / 200) % Z.length) / 999) / 99
-				},
-				N.connect(K.destination),
-        onmousemove = e => (c.Y -= e.movementX/150, c.P += e.movementY/150)
-			)
-		)
-	)
+(
+  n = e =>
+  (
+    uniform3f(gf(p, `Q`), sin(-c.Y) * cos(c.P), -sin(c.P), cos(c.P) * cos(-c.Y)),
+    uniform3f(gf(p, `C`), ...m),
+    uniform3f(gf(p, `R`), c.P, c.Y, 0),
+    dr(6, 0, 3),
+    e = .002,
+    //c[38] && (m[0] += e * sin(-c.Y) * cos(c.P), m[1] -= e * sin(c.P), m[2] += e * cos(c.P) * cos(-c.Y)),
+    //e = -e,
+    //c[40] && (m[0] += e * sin(-c.Y) * cos(c.P), m[1] -= e * sin(c.P), m[2] += e * cos(c.P) * cos(-c.Y)),
+    c[38] && (m[2] += e),
+    c[40] && (m[2] -= e),
+    c[37] && (m[0] -= e),
+    c[39] && (m[0] += e),
+    setTimeout(n,16)
+  )
+)(
+  onkeydown = onkeyup = e => c[e.which] = e.type[5],
+  onmousemove = e => (c.Y -= e.movementX/300, c.P += e.movementY/300),
+  J || (
+    J = 1,
+    (N = (K = new AudioContext).createScriptProcessor(512, 1, 1)).onaudioprocess = e => {
+      for (i = 512; i--;)
+        e.outputBuffer.getChannelData(0)[i] = sin(i * _.charCodeAt((Date.now() / 300) % _.length) / 300) / 99
+    },
+    N.connect(K.destination)
+  )
+)
   
-  c[40]=1;
+c[40]=1;
 
 </script>
