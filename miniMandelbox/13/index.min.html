@@ -1,0 +1,12 @@
+<!doctype html>
+<meta charset=utf-8>
+<body id=b style=margin:0 bgcolor=0>
+<center><canvas id=a width=500 height=500 style=cursor:none>
+<script>
+c = a.getContext(`webgl`);
+_=`blah blah`;
+
+
+for(i in c)c[i[0]+i[6]]=c[i];with(c)with(Math)p=cP(eV(a=A=O=W=k=K=0)),sS(s=cS(FN+k++),`precision lowp float ;uniform vec3 C,R,Q;void main(){vec4 p=vec4(C,1),e=vec4(1e-3,0,0,0),d=vec4(gl_FragCoord.xy/5e2-.5,1,0),o;float a=R.x;d.yz*=mat2(cos(a),-sin(a),sin(a),cos(a));a=R.y;d.xz*=mat2(cos(a),-sin(a),sin(a),cos(a));gl_FragColor=vec4(0,0,0,1);for(float i=1.;i>0.;i-=.01){o=p+e.xyyy;for(int j=0;j<12;j++)o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(2.8/length(o.xyz)/length(o.xyz),2.8,11.)+p;float A=(length(o.xyz)-1.)/o.w;o=p+e.yxyy;for(int j=0;j<12;j++)o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(2.8/length(o.xyz)/length(o.xyz),2.8,11.)+p;float B=(length(o.xyz)-1.)/o.w;o=p+e.yyxy;for(int j=0;j<12;j++)o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(2.8/length(o.xyz)/length(o.xyz),2.8,11.)+p;float C=(length(o.xyz)-1.)/o.w;o=p+e.yyyy;for(int j=0;j<12;j++)o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(2.8/length(o.xyz)/length(o.xyz),2.8,11.)+p;float _;if((length(o.xyz)-1.)/o.w<1e-3){gl_FragColor=vec4(i*dot(normalize((length(o.xyz)-1.)/o.w-vec3(A,B,C)),Q)-o.xyz/length(o.xyz)/4.,1);break;}p+=d*(length(o.xyz)-1.)/o.w;}}`),ce(s),aS(p,s),sS(s=cS(FN+k++),`attribute vec4 p;void main(){gl_Position=p;}`),ce(s),aS(p,s),lo(p),ug(p),bf(ET-3,B=cB()),bD(ET-3,new Int8Array(m=[-3,1,1,-3,1,1]),ET-3+82),vA(0,2,5120,0,0,0),setInterval(o=>{uniform3f(gf(p,`Q`),sin(A)*cos(a),-sin(a),cos(a)*cos(A)),uniform3f(gf(p,`C`),...m),uniform3f(gf(p,`R`),a,-A,0),dr(6,0,3),W&&(m[0]+=.01*sin(A)*cos(a),m[1]-=.01*sin(a),m[2]+=.01*cos(a)*cos(A))},33),onmousemove=(o=>(A+=o.movementX/99,a+=o.movementY/99)),onmousedown=onmouseup=(o=>(W=o.type[8],K||((N=(K=new AudioContext).createScriptProcessor(512,1,1)).onaudioprocess=(o=>{for(i=512;i--;)o.outputBuffer.getChannelData(0)[i]=sin(i*_.charCodeAt(O++/1e4&511)/999)/99}),N.connect(K.destination))))
+
+</script>
