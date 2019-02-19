@@ -207,7 +207,7 @@ Z'
         width:3.5%;
         
         /* padding adjusted to make the gutters look equal between the cells */
-        /* note: there's no space between ".7%" and ".5%" to save one byte. It's valid CSS */
+        /* note: there is no space between .7% and .5% to save one byte. It is valid CSS */
         padding:.7%.5%;
         
         /* make the element default position on the top-left of the screen */
@@ -215,7 +215,7 @@ Z'
         
         /* Move the cell horizontally according to j%18 and vertically according to j/18 */
         /* Coefficients and offsets are added to these values to make the gutters and center the table */
-        margin:${4.5 * ~~(j / 18) + 1}%${j % 18 * 5 + 4}vw;
+        margin:${4.4 * ~~(j / 18) + 1}%${j % 18 * 5 + 4}vw;
         
         /* Border is dashed if a is set, otherwise, dotted for elements 95-118 and solid for elements 1-94 */
         border:2px ${a ? "dashed" : i > 93 ? "dotted" : "solid"};
