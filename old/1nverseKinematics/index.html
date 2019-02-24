@@ -1,0 +1,110 @@
+﻿<body id=b>
+<canvas id=a></canvas>
+<script>
+a.width = innerWidth-20;
+a.height = innerHeight-20;
+c = a.getContext("2d");
+
+rotatePoint = (point, angle) => [
+    point[0]*Math.cos(angle) - point[1]*Math.sin(angle),
+    point[0]*Math.sin(angle) + point[1]*Math.cos(angle)
+];
+
+translatePoint = (point, h, v) => [point[0]+h, point[1]+v];
+
+angle = point => Math.atan2(point[1], point[0]);
+
+draw = arm => {
+  c.beginPath();
+  c.translate(arm.x,arm.y);
+  c.rotate(arm.angle);
+  c.lineWidth = arm.length/5;
+  c.moveTo(0,0);
+  c.lineTo(arm.length,0);
+  c.strokeStyle="#000";
+  c.lineCap = "round";
+  c.stroke();
+  arm.child && draw(arm.child);
+  c.closePath();
+}
+    
+updateIK = (arm, target) => {
+
+  // convert from parent to local coordinates
+  var endpoint, localTarget = rotatePoint(translatePoint(target, -arm.x, -arm.y), -arm.angle);
+  if (arm.child) {
+    endPoint = updateIK(arm.child, localTarget);
+  } else {
+    // base case:  the end point is the end of the current bone
+    endPoint = [arm.length, 0];
+  }
+  
+  // point towards the endpoint
+  arm.angle += (angle(localTarget) - angle(endPoint));
+  
+  // convert back to parent coordinate space
+  return translatePoint(rotatePoint(endPoint, arm.angle), arm.x, arm.y);
+}
+  
+chain = {
+  x:innerWidth / 2,
+  y:innerHeight / 2,
+  length:100,
+  angle:0,
+  child:{
+    x:100,
+    y:0,
+    length:90,
+    angle:0,
+    child:{
+      x:90,
+      y:0,
+      length:80,
+      angle:0,
+      child:{
+        x:80,
+        y:0,
+        length:70,
+        angle:0
+      }
+    }
+  }
+};
+
+draw(chain);
+
+onmousemove = e => {
+  a.width ^= 0;
+  for (i = 0; i < 5; i++) {
+    updateIK(chain, [e.pageX, e.pageY]);
+  }
+  draw(chain);
+}
+
+svg = `
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<g>
+	<g>
+		<path d="M419,88c-27,0-45,7-56,15c-4-3-8-7-13-10
+			C325,77,293,69,256,69s-69,7-93,23c-4,3-9,6-13,10
+			c-11-7-29-15-56-15C41,88,0,126,0,173c0,28,15,42,29,56
+			c9,9,18,18,26,33c1,2,2,4,3,7c10,20,22,42,54,42
+			c19,0,33-9,43-18c1,1,2,2,4,3c14,11,41,31,41,44
+			c0,4-0,5-3,6c-6,3-20,4-40,4h-16v88h70
+			c30,0,51-6,65-21c12-13,17-29,22-47c7-26,15-53,50-78
+			c9,8,24,18,43,18c32,0,44-21,54-42c1-2,2-4,3-7
+			c7-14,17-24,26-33c14-14,29-28,29-56C512,126,470,88,419,88z
+			 M214,215c-9,0-17-8-17-17s8-17,17-17c9,0,17,8,17,17
+			S224,215,214,215z M297,215c-9,0-17-8-17-17s8-17,17-17
+			c9,0,17,8,17,17S307,215,297,215z"/>
+	</g>
+</g>
+
+</svg>
+
+`;
+
+console.log(b.style.background = "url('data:image/svg+xml;base64," + btoa(svg) + "')")
+
+</script>

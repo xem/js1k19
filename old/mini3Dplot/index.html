@@ -1,0 +1,72 @@
+﻿<input id=I size=99>
+<button onclick=r()>randomize</button>
+<p>
+<canvas id=a>
+<script>
+c=a.getContext`2d`;
+
+g=r=>Math.sin(p=Math.atan2(y,x)+r,y=Math.cos(p)*(d=Math.hypot(y,x)))*d;
+
+f=(X,Y)=>(x=X-15,y=Y-15,eval(J=I.value),u=g(w/99),x=z/z?z:0,v=g(4),y+=S/6,[S/2+u/y*S,S/2+v/y*S]);
+
+I.value=atob((l=top.location).hash.slice(1))||'z=x/y*4';
+
+oneOf = a => a[Math.random()*a.length | 0 ];
+r=z=>{
+  var backup, equation = "z=expression";
+  do{
+    backup = equation;
+    equation = equation
+    .replace(/expression/g, z => oneOf(
+      [
+        "(expression)-(expression)",
+        "(expression)+(expression)",
+        "(expression)*(expression)",
+        "(expression)/(expression)",
+        "(expression)**(expression)",
+        "(expression)^(expression)",
+        "Math.min(expression, expression)",
+        "Math.max(expression, expression)",
+        "Math.hypot(expression, expression)",
+        "Math.sqrt(expression)",
+        "Math.cos(expression)",
+        "Math.sin(expression)",
+        "Math.tan(expression)",
+        "Math.floor(expression)",
+      ])
+    )
+    .replace(/expression/g, z => oneOf(
+      [
+        "expression",
+        "expression",
+        "expression",
+        "expression",
+        "expression",
+        "x",
+        "y",
+        "w",
+        Math.random()*10 | 0
+      ])
+    );
+    
+    if(equation.length > 100){
+      equation = "z=expression";
+    }   
+  }
+  while(backup != equation);
+  I.value = equation;
+  
+}
+
+setInterval(
+  e=>{
+    a.height=a.width=S=500;
+    w+=1;
+    for(X=31;--X;)
+      for(Y=30;--Y;)
+        c.stroke(new Path2D(`M${f(X,Y)}L${f(X,Y+1)}M${f(Y,X)}L`+f(Y+1,X)));
+    l.hash=btoa(J);
+  },
+  w = 16
+)
+</script>

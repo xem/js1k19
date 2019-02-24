@@ -1,0 +1,9 @@
+﻿<canvas id=a>
+<script>
+a.width = innerWidth-20;
+a.height = innerHeight-20;
+c = a.getContext("2d");
+
+R=((n,t)=>[n[0]*Math.cos(t)-n[1]*Math.sin(t),n[0]*Math.sin(t)+n[1]*Math.cos(t)]),T=((n,t,e)=>[n[0]+t,n[1]+e]),A=(n=>Math.atan2(n[1],n[0])),D=(n=>{c.beginPath(),c.translate(n.x,n.y),c.rotate(n.A),c.lineWidth=n.length/5,c.moveTo(0,0),c.lineTo(n.length,0),c.strokeStyle="#000",c.lineCap="round",c.stroke(),n.c&&D(n.c),c.closePath()}),U=((n,t)=>{var e=R(T(t,-n.x,-n.y),-n.A);return n.c?E=U(n.c,e):E=[n.length,0],n.A+=A(e)-A(E),T(R(E,n.A),n.x,n.y)}),C={x:innerWidth/2,y:innerHeight/2,length:100,A:0,c:{x:100,y:0,length:90,A:0,c:{x:90,y:0,length:80,A:0,c:{x:80,y:0,length:70,A:0}}}},D(C),onmousemove=(n=>{for(a.width^=0,i=0;i<5;i++)U(C,[n.pageX,n.pageY]);D(C)})
+
+</script>
