@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <meta charset=utf-8>
 <body id=b style=margin:0 bgcolor=0>
 <center><canvas id=a width=800 height=600 style=cursor:none></canvas>
@@ -104,18 +104,19 @@ for(i=512;i--;)
 o.outputBuffer.getChannelData(0)[i]=sin(i*_.charCodeAt(O++/99/99%99)/999)/99
 },
 N.connect(K.destination),
-setInterval(
-o=>{
+(
+Y=o=>{
 uniform3f(gf(p,`Q`),sin(A)*cos(a),-sin(a),cos(a)*cos(A)),
 dr(6,
-uniform3f(gf(p,`R`),a,-A,Z+=1e-3),
+uniform3f(gf(p,`R`),a,-A,Z+=5e-4),
 3),
 uniform3f(gf(p,`C`),...m),
-m[0]+=sin(A)*cos(a)/199,
-m[1]-=sin(a)/199,
-m[2]+=cos(a)*cos(A)/199
-},33
-),
+m[0]+=sin(A)*cos(a)/299,
+m[1]-=sin(a)/299,
+m[2]+=cos(a)*cos(A)/299,
+setTimeout(Y,33)
+}
+)(),
 onmousemove=o=>{
 A+=o.movementX/199,
 a+=o.movementY/199
