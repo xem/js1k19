@@ -29,7 +29,7 @@ float a=R.x;
 d.yz*=mat2(cos(a),-sin(a),sin(a),cos(a));
 a=R.y;
 d.xz*=mat2(cos(a),-sin(a),sin(a),cos(a));
-for(float i=1.;i>0.;i-=2e-3){
+for(float i=1.;i>0.;i-=5e-3){
 o=p+e.xyyy;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
 o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
 o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
