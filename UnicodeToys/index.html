@@ -22,7 +22,7 @@
 // - Some affect the chars A-Za-z. (math bold *, math sans *, squared, squared negative, faux cyrillic, math fraktur, superscript)
 // - Some only affect A-Z, because they are case insensitive. (curvy 1/2/3, faux ethiopic, circled negative, squared, squared negative, regional indicator)
 
-// Some transfors have some specificities:
+// Some transforms have some specificities:
 // - They can reverse the string (inverted, reversed)
 // - They can be pseudoalphabets made from different Unicode blocks (faux cyrillic, faux ethiopic, math fraktur, math double struck, smallcaps, subscript, superscript, inverted, reversed)
 //   NB: Some pseudoalphabets only lack a few characters (CHINPQRZ0), borrowed from other blocks (math fraktur, math double struck)
@@ -237,21 +237,6 @@ b.innerHTML = "<input size=99 id=A value='Hello JS1k 19'><p id=o>";
         , 1                 // reverse
       ],
       
-      // Reversed (left-right)
-      /*[
-        ,                   // A-Z
-        ,                   // a-z
-        ,                   // 0-9
-        ,                   // other chars
-        c =>                // ASCII
-          (c >= 0x41 && c <= 0x5A) ? "AdↄbɘꟻgHijklmᴎoqpᴙꙅTUvwxYz"[c - 65] : // A-Z
-          (c >= 0x61 && c <= 0x7a) ? "AdↄbɘꟻgHijklmᴎoqpᴙꙅTUvwxYz"[c - 97] : // a-z
-          String.fromCodePoint(c),                                          // Other
-        ,                   // Unicode
-        , 1                 // reverse
-      ],
-      */
-      
       // Zalgo
       [
         ,           // A-Z
@@ -268,6 +253,7 @@ b.innerHTML = "<input size=99 id=A value='Hello JS1k 19'><p id=o>";
       r = "";
       
       // Loop on all the glyphs of the input, the char is stored in `c`.
+      // NB: the "..." operator was buggy on Chrome 71, so I waited the second month of the compo to submit it, hoping that enough people updated to Chrome 72.
       for(c of v = [...A.value]){
         
         // The char's code point is saved into `p`.
