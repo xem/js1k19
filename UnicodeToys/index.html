@@ -9,13 +9,13 @@
 
 // This demo performs 25 text transforms in real time.
 // The output can be used on any webpage, program or social network.
-// It is inspired by http://qaz.wtf/u/, https://yaytext.com/ and https://eeemo.net/
+// It is inspired by http://qaz.wtf/u/ , https://yaytext.com/ and https://eeemo.net/
 // Some char encodings were reverse-engineered using http://xem.github.io/escape/
 // some missing chars were completed manually using http://shapecatcher.com
 // All printable ASCII chars: !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~  
 
 // After some analysis, I segmented the transforms into 5 main categories:
-// - Some affect all Unicode chars (strikethrough, underline, cross hatching, zalgo)
+// - Some affect all Unicode chars (strikethrough, tilde strikethrough, cross hatching, underline, zalgo)
 // - Some affect all ASCII chars except space and DEL. (fullwidth, inverted, reversed).
 // - Some affect the chars A-Za-z0-9. (circled negative, math bold, math double struck, math sans, math sans bold, parenthesised)
 //   NB: circled negative and squared also affects the chars '.' and '-', circled also affects the char '='.
@@ -36,7 +36,7 @@
 // - All Unicode chars
 // - ... and an extra option to reverse the string
 
-b.innerHTML = "<input size=99 id=A value='Hello JS1k'><p id=o>";
+b.innerHTML = "<input size=99 id=A value='Hello JS1k 19'><p id=o>";
 
 (
   // On load, and when the text input is edited
@@ -183,14 +183,14 @@ b.innerHTML = "<input size=99 id=A value='Hello JS1k'><p id=o>";
         c => String.fromCodePoint(c) + "̶" // Unicode
       ],
       
-      // Underline (U+0332)
+      // Tilde strikethrough (U+0334)
       [
         ,         // A-Z
         ,         // a-z
         ,         // 0-9
         ,         // other chars
         ,         // ASCII
-        c => String.fromCodePoint(c) + "̲" // Unicode
+        c => String.fromCodePoint(c) + "̴" // Unicode
       ],
       
       // Cross hatching (U+0337)
@@ -201,6 +201,16 @@ b.innerHTML = "<input size=99 id=A value='Hello JS1k'><p id=o>";
         ,         // other chars
         ,         // ASCII
         c => String.fromCodePoint(c) + "̷" // Unicode
+      ],
+      
+      // Underline (U+0332)
+      [
+        ,         // A-Z
+        ,         // a-z
+        ,         // 0-9
+        ,         // other chars
+        ,         // ASCII
+        c => String.fromCodePoint(c) + "̲" // Unicode
       ],
       
       // Superscript (ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ۹ʳˢᵗᵘᵛʷˣʸᶻ ⁰¹²³⁴⁵⁶⁷⁸⁹)
@@ -222,7 +232,7 @@ b.innerHTML = "<input size=99 id=A value='Hello JS1k'><p id=o>";
         ,                   // a-z
         ,                   // 0-9
         ,                   // other chars
-        c => [..."¡„#$%⅋,)(*+‘-˙/0⥝ᘔε߈S9⏌86:⸵<=>¿@ɐqɔpǝɟƃɥᵎɾʞןɯuodbɹsʇnʌʍxʎz]\\[^_`ɐqɔpǝɟƃɥᵎɾʞןɯuodbɹsʇnʌʍxʎz}|{~"][c - 33] // ASCII
+        c => [..."¡„#$%⅋,)(*+‘-˙/0⥝ᘔε߈S9⏌86:⸵>=<¿@ɐqɔpǝɟƃɥᵎɾʞןɯuodbɹsʇnʌʍxʎz]\\[^_`ɐqɔpǝɟƃɥᵎɾʞןɯuodbɹsʇnʌʍxʎz}|{~"][c - 33] // ASCII
         ,                   // Unicode
         , 1                 // reverse
       ],
@@ -294,6 +304,6 @@ b.innerHTML = "<input size=99 id=A value='Hello JS1k'><p id=o>";
       o.innerHTML += r + "<br><br>";
     }
   }
-)();
+)()
 
 </script>
