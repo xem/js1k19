@@ -36,14 +36,15 @@
 // - All Unicode chars
 // - ... and an extra option to reverse the string
 
-b.innerHTML = "<input size=99 id=A value='Hello JS1k 19'><p id=o>";
+b.innerHTML = " <input size=99 id=A value='Hello JS1k'><p id=o>";
 
 (
   // On load, and when the text input is edited
   A.oninput = c => {
   
-    // Reset the output paragraph
-    o.innerHTML = "";
+    // Reset the output paragraph.
+    // A non-breaking space is placed before the first transform.
+    o.innerHTML = " ";
     
     // Loop on all the transforms, the current transform is called `i`.
     for(i of 
@@ -263,18 +264,18 @@ b.innerHTML = "<input size=99 id=A value='Hello JS1k 19'><p id=o>";
         if(i[3] && i[3][c]) r += i[3][c];
         
         // Then, replace the chars 0-9 (if the transform contains a code point offset for these chars).
-        else if(p >= 0x30 && p <= 0x39 && i[2]) r += String.fromCodePoint(p + i[2]);
+        else if(p > 0x30 - 1 && p < 0x39 + 1 && i[2]) r += String.fromCodePoint(p + i[2]);
 
         // Then, replace the chars A-Z (if the transform contains a code point offset for these chars).
         // To save bytes, the A-Z chars offset is not stored directly, the difference with the a-z chars offset is stored instead.
         // This difference is generally 6 or 32, so RegPack will compress these numbers better than raw offsets.
-        else if(p >= 0x41 && p <= 0x5A && i[0]) r += String.fromCodePoint(p + i[1]+i[0]);
+        else if(p > 0x41 - 1 && p < 0x5A + 1 && i[0]) r += String.fromCodePoint(p + i[1]+i[0]);
         
         // Then, replace the chars a-z (if the transform contains a code point offset for these chars).
-        else if(p >= 0x61 && p <= 0x7a && i[1]) r += String.fromCodePoint(p + i[1]);
+        else if(p > 0x61 - 1 && p < 0x7a + 1 && i[1]) r += String.fromCodePoint(p + i[1]);
         
         // Then replace the ASCII chars (if the transform contains a function to transform them).
-        else if(p >= 0x21 && p <= 0x7e && i[4]) r += i[4](p);
+        else if(p > 0x21 - 1 && p < 0x7e + 1 && i[4]) r += i[4](p);
 
         // Then replace all the Unicode chars (if the transform contains a function to transform them).
         else if(i[5]) r += i[5](p);
@@ -284,12 +285,16 @@ b.innerHTML = "<input size=99 id=A value='Hello JS1k 19'><p id=o>";
       }
       
       // If the transform enables the "reverse" option, the string is reversed and a line break is added.
-      if(i[6]) r = [...r].reverse().join("")+"<br>";
+      if(i[6]) r = [...r].reverse().join("") + "<br>";
       
-      // The transformen string output is added to the output paragraph.
-      o.innerHTML += r + "<br><br>";
+      // The transformed string output is added to the output paragraph.
+      // A non-breaking space is added before the next transform.
+      o.innerHTML += r + "<br><br> ";
     }
   }
 )()
 
+// To fit in 1024b, I edited the minified code produced by terser-online:
+// <p id=o>            =>  <p id=z>
+// A.oninput=(n=>...)  =>  A.oninput=o=>...
 </script>
