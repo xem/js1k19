@@ -1,7 +1,7 @@
 ﻿<!doctype html>
 <meta charset=utf-8>
 <body id=b style=margin:0 bgcolor=0>
-<center><canvas id=a width=800 height=600 style=cursor:none></canvas>
+<center><canvas id=a width=500 height=500 style=cursor:none></canvas>
 <div id=scale style="color:#fff;background:#000;padding:5px;position:fixed;bottom:0;right:0;font:bold 16px arial"></div>
 <script>
 
@@ -24,14 +24,13 @@ R,
 Q;
 void main(){
 vec4 p=vec4(C,1),e=gl_FragColor=vec4(1e-3,0,0,1),
-d=vec4(gl_FragCoord.xy/8e2-.5,1,0),o;
+d=vec4(gl_FragCoord.xy/5e2-.5,1,0),o;
 float a=R.x;
 d.yz*=mat2(cos(a),-sin(a),sin(a),cos(a));
 a=R.y;
 d.xz*=mat2(cos(a),-sin(a),sin(a),cos(a));
-for(float i=1.;i>0.;i-=5e-3){
+for(float i=1.;i>0.;i-=1e-2){
 o=p+e.xyyy;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
-o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
 o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
 o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
 o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,
@@ -55,7 +54,6 @@ o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z
 o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
 o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
 o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
-o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
 float B=(length(o.xyz)-1.)/o.w;o=p+e.yyxy;
 o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
 o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
@@ -68,9 +66,7 @@ o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z
 o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
 o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
 o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
-o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
 float C=(length(o.xyz)-1.)/o.w;o=p+e.yyyy;
-o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
 o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
 o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
 o.xyz=clamp(o.xyz,-1.,1.)*2.-o.xyz,o=o*clamp(R.z/length(o.xyz)/length(o.xyz),R.z,R.z*4.)+p;
@@ -97,7 +93,7 @@ ce(s),
 aS(p,s),
 lo(p),
 vA(ug(p),2,5120,bf(ET-3,B=cB()),1,bD(ET-3,new Int8Array(m=[1,-3,1,1]),ET-3+82)),
-m[Z=2]=-3,
+m[Z=2]=-4,
 onclick=o=>{
 (N=(K=new AudioContext).createScriptProcessor(512,1,1)).onaudioprocess=o=>{
 for(i=512;i--;)
