@@ -1,9 +1,11 @@
-b.innerHTML = `<font face=arial><b><textarea id=a>a©€💩</textarea><p id=O>`;
+// Input
+b.innerHTML = `<font face=arial><b><textarea id=a>H€llo 💻</textarea><p id=O>`;
 
+// On load and on input:
 (oninput = _ => {
 
+// Redraw all the fields
 O.innerHTML = `<p>Code points<p><input size=99 id=c><p>HTML<p><input size=99 id=d><p><input size=99 id=e><p>JS/ES6<p><input size=99 id=f><p><input size=99 id=g><p>URI<p><input size=99 id=h><p>UTF8<p><input size=99 id=j><p><input size=99 id=k><p>UTF16BE <p><input size=99 id=l><p><input size=99 id=m><p>UTF16LE<p><input size=99 id=n><p><input size=99 id=o><p>UTF32BE<p><input size=99 id=q><p><input size=99 id=r><p>UTF32LE<p><input size=99 id=s><p><input size=99 id=u><p>Windows1252<p><input size=99 id=w><p><input size=99 id=x><p><input size=99 id=B><p>Windows1252 > UTF8<p><input size=99 id=C><p>UTF8 > Windows1252<p><input size=99 id=D>`
-
 
 // Save input text in `v`, separate the glyphs in an array `t` and loop on them using `i`.
 for(i of t = [...v = a.value]){
@@ -40,7 +42,6 @@ for(i of t = [...v = a.value]){
   // all ASCII chars (U+00 to U+7F) and chars U+A0 to U+FF, are similar to Unicode.
   // chars U+80 to U+9F use these glyphs: `€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œž`.
   // chars > U+FF are ignored
-  
   W = `€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œž`;
   
   // Compatible text 
@@ -51,8 +52,6 @@ for(i of t = [...v = a.value]){
   
   // Latin-1 char (for base64 conversion)
   B.value += W.includes(i) ? String.fromCodePoint(W.indexOf(i) + 128) : p < 0x100 ? String.fromCodePoint(p) : ``;
-
-    
 }
 
 // Encode the latin-1 string in base64.
