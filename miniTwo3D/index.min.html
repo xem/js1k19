@@ -1,0 +1,13 @@
+﻿<title>MiniTwo3D</title>
+<body id=b><canvas id=a width=380 height=380></canvas>
+<script>
+c = a.getContext(`2d`);
+d = document;
+
+
+
+
+
+for(i in d.write`<div style=transform-style:preserve-3d;position:fixed;width:40em;height:40em;bottom:0;right:5em;perspective:70em><p id=s style=transform-style:preserve-3d;position:fixed;width:40em;height:40em;transform:translateZ(-20em)rotateX(40deg)rotateZ(30deg)></div><p><input type=color id=o value=#0080ff> <button onclick=g()>GO</button> <button onclick=s.innerHTML='';E=0;r();r()>x<style>#b{margin:1%}#s{animation:a 20s infinite;border:5px solid}@keyframes a{50%{transform:translateZ(-20em)rotateX(40deg)rotateZ(-30deg)`,p=[],S=20,E=m=0,(r=(e,t)=>{for(c.fillStyle=`#fffc`,c.fillRect(0,0,20*S,20*S),c.fillStyle=`#ccc`,i=S;i--;)c.fillRect(0,20*i-1,20*S,2),c.fillRect(20*i-1,0,2,20*S),p[i]=[]})(),Z=`01011010100010100101010100101011011011010101`)+Z[i]&&(p[8+~~(i/11)][4+i%11]=c.fillStyle=o.value,c.fillRect(20*(4+i%11)+1,20*(8+~~(i/11))+1,18,18));a.onmousedown=(e,t)=>z(e,0,m=1);a.onmousemove=(e,t)=>m&&z(e);onmouseup=(e,t)=>m=0;a.oncontextmenu=(e,t)=>!!z(e,1);z=(e,t)=>{c.fillStyle=t?`#ffff`:o.value,c.fillRect(20*~~((e.pageX-a.offsetLeft)/20)+1,20*~~((e.pageY-a.offsetTop)/20)+1,18,18),p[~~((e.pageY-a.offsetTop)/20)][~~((e.pageX-a.offsetLeft)/20)]=t||o.value};(g=(e,t)=>{for(i=S;i--;)for(j=S;j--;)p[i][j]&&(s.innerHTML+=`<div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};transform:translateY(${2*i}em)translateX(${2*j}em)translateZ(${E+2}em)><div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(90%);transform:rotateY(90deg)translateX(1em)translateZ(-1em)></div><div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(80%);transform:rotateY(90deg)translateX(1em)translateZ(1em)></div><div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(110%);transform:rotateX(90deg)rotateZ(180deg)translateY(1em)translateZ(-1em)>`);e||r(E+=2)})(1)
+
+</script>

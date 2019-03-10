@@ -1,0 +1,72 @@
+<title>MiniTwo3D</title>
+<body id=b><canvas id=a width=400 height=400></canvas>
+<script>
+c = a.getContext("2d");
+d = document;
+//b.style.margin="1em";
+
+
+
+
+
+d.write`<p><input type=color id=o value="#0080ff"><button onclick=g()>GO<button onclick=s.innerHTML='';E=0;r();r()>X<div style='transform-style:preserve-3d;width:40em;height:40em;position:fixed;bottom:0;right:5em;perspective:70em;'><div id=s style='transform-style:preserve-3d;width:40em;height:40em;position:fixed;border:5px solid;transform:translateZ(-20em)rotateX(45deg)rotateZ(30deg'></div><style>#s{animation:a 20s infinite forwards}@keyframes a{50%{transform:translateZ(-20em)rotateX(45deg)rotateZ(-30deg`
+
+p = [];
+S = 21;
+E = 0;
+
+// reset canvas
+(r = e => {
+  c.fillStyle = "#fffc";
+  c.fillRect(0, 0, S*20, S*20);
+  c.fillStyle = "#ccc";
+  for(i = S; i--;){
+    c.fillRect(0, i*20-1, S * 20, 2);
+    c.fillRect(i*20-1, 0, 2, S * 20);
+    p[i] = [];
+  }
+})()
+
+for(i in Z="\
+01011010100\
+01010010101\
+01001010110\
+11011010101"){
+  if(+Z[i]){
+    x = i%11
+    y = i/11
+    p[8+y][4+x] = c.fillStyle = o.value;
+    c.fillRect((4+x)*20, (8+y)*20, 20, 20);
+  }
+}
+
+// draw on canvas
+m = 0;
+a.onmousedown = e => { m = 1; t(e); }
+a.onmousemove = e => { if(m){ t(e); } }
+onmouseup = e => { m = 0; }
+t = e => {
+  d = o.value;
+  x = e.pageX - a.offsetLeft;
+  y = e.pageY - a.offsetTop;
+  c.fillStyle = d;
+  c.fillRect((~~(x/20))*20, (~~(y/20))*20, 20, 20);
+  p[(~~(y/20))][(~~(x/20))] = d;
+}
+
+// Go
+(g = e => {
+
+  for(i = S; i--;){
+    for(j = S; j--;){
+      if(p[i][j]) s.innerHTML += 
+      `<div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;transform:translateY(${i*2}em)translateX(${j*2}em)translateZ(${E}em><div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(110%);transform:translateZ(2em></div><div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(90%);transform:rotateY(90deg)translate(-1em)translateZ(-1em></div><div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(80%);transform:rotateY(90deg)translate(-1em)translateZ(1em></div><div style=position:fixed;width:2em;height:2em;background:${p[i][j]};transform-style:preserve-3d;transform:rotateX(90deg)rotateZ(180deg)translateY(-1em)translateZ(-1em></div>`;
+    } 
+  }
+  if(!e){
+    r();
+    E += 2;
+  }
+})(1)
+
+</script>

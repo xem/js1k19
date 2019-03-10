@@ -1,0 +1,87 @@
+﻿<title>MiniTwo3D</title>
+<h1>MiniTwo3D</h1>
+<br>
+<canvas id=a width=400 height=400 style="border:1px solid"></canvas>
+<script>
+c = a.getContext("2d");
+
+
+
+
+
+
+a.insertAdjacentHTML("afterEnd", `
+<p>
+<input type=color id=o value="#0080ff">
+<button onclick=g()>GO</button>
+<button onclick=C()>clear</button>
+<div style='transform-style:preserve-3d;width:40em;height:40em;position:fixed;bottom:0;right:2em;perspective:70em;'>
+<div id=s style='transform-style:preserve-3d;width:40em;height:40em;position:fixed;border:5px solid;transform:translateZ(-20em)rotateX(45deg)rotateZ(30deg'>
+<style>@keyframes a{50%{transform:translateZ(-20em)rotateX(45deg)rotateZ(-30deg)}}#s{animation:a 20s infinite forwards`
+)
+
+p = [];
+S = 20;
+E = 0;
+
+// reset canvas
+(r = e => {
+  c.fillStyle = "#fffc";
+  c.fillRect(0,0,S*20,S*20);
+  c.fillStyle = "#aaa";
+  for(i = 0; i < S; i++){
+    c.fillRect(0, i*20, S * 20, 1);
+    c.fillRect(i*20, 0, 1, S * 20);
+    p[i] = [];
+  }
+})()
+
+// draw on canvas
+m = 0;
+a.onmousedown = e => { m = 1; t(e); }
+a.onmousemove = e => { if(m){ t(e); } }
+onmouseup = e => { m = 0; }
+t = e => {
+  d = o.value;
+  x = e.pageX - a.offsetLeft;
+  y = e.pageY - a.offsetTop;
+  c.fillStyle = d;
+  c.fillRect((~~(x/20))*20, (~~(y/20))*20, 20, 20);
+  p[(~~(y/20))][(~~(x/20))] = d;
+}
+
+// Go
+g = e => {
+
+  for(i = 0; i < S; i++){
+    for(j = 0; j < S; j++){
+      if(p[i][j]) s.innerHTML += 
+      `
+      <div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;transform:translateY(${i*2}em)translateX(${j*2}em)translateZ(${E}em>
+              
+      <!-- Top -->
+      <div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(110%);transform:translateZ(2em></div>
+
+      <!-- Left -->
+      <div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(90%);transform:rotateY(90deg)translate(-1em)translateZ(-1em></div>
+
+      <!-- Right -->
+      <div style=transform-style:preserve-3d;position:fixed;width:2em;height:2em;background:${p[i][j]};filter:brightness(80%);transform:rotateY(90deg)translate(-1em)translateZ(1em></div>
+
+      <!-- Front -->
+      <div style=position:fixed;width:2em;height:2em;background:${p[i][j]};transform-style:preserve-3d;transform:rotateX(90deg)rotateZ(180deg)translateY(-1em)translateZ(-1em></div>
+      `;
+    } 
+  }
+  r();
+  E += 2;
+}
+
+C = e => {
+  s.innerHTML = "";
+  r();
+  r();
+  E = 0;
+}
+
+</script>
