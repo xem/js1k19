@@ -1,4 +1,4 @@
-// Introduction
+﻿// Introduction
 // ============
 
 // This demo is the geek sequel of Mini Unicode Toys (js1k.com/4104).
@@ -20,7 +20,7 @@ b.innerHTML = "<font face=arial><b><textarea id=a>H€llo 💻</textarea><p id=O
 (oninput = _ => {
 
 // Redraw all the fields
-O.innerHTML = "<p>Code points<p><input size=99 id=c><p>HTML<p><input size=99 id=d><p><input size=99 id=e><p>JS / ES6<p><input size=99 id=f><p><input size=99 id=g><p>URI<p><input size=99 id=h><p>UTF-8<p><input size=99 id=j><p><input size=99 id=k><p>UTF-16 BE <p><input size=99 id=l><p><input size=99 id=m><p>UTF-16 LE<p><input size=99 id=n><p><input size=99 id=o><p>UTF-32 BE<p><input size=99 id=q><p><input size=99 id=r><p>UTF-32 LE<p><input size=99 id=s><p><input size=99 id=u><p>Latin-1<p><input size=99 id=w><p><input size=99 id=x><p><input size=99 id=B><p>Latin-1 > UTF-8<p><iframe width=600 height=50 id=C></iframe><p>UTF-8 > Latin-1<p><iframe width=600 height=50 id=D></iframe>"
+O.innerHTML = "<p>Code points<p><input size=99 id=c><p>HTML<p><input size=99 id=E><p><input size=99 id=e><p>JS / ES6<p><input size=99 id=f><p><input size=99 id=g><p>URI<p><input size=99 id=h><p>UTF-8<p><input size=99 id=j><p><input size=99 id=k><p>UTF-16 BE <p><input size=99 id=l><p><input size=99 id=m><p>UTF-16 LE<p><input size=99 id=n><p><input size=99 id=o><p>UTF-32 BE<p><input size=99 id=q><p><input size=99 id=r><p>UTF-32 LE<p><input size=99 id=s><p><input size=99 id=u><p>Latin-1<p><input size=99 id=w><p><input size=99 id=x><p><input size=99 id=B><p>Latin-1 > UTF-8<p><iframe width=600 height=50 id=C></iframe><p>UTF-8 > Latin-1<p><iframe width=600 height=50 id=D></iframe>"
 
 // Save input text in "v", separate the glyphs in an array "t" and loop on them using "i".
 for(i of t = [...v = a.value]){
@@ -38,7 +38,7 @@ for(i of t = [...v = a.value]){
   c.value += "U+"+p.toString(16).padStart(p > 0xFFFF ? -5 : -4, 0)+" ";
   
   // HTML entities ("&#...;" / "&#x...;").
-  d.value += "&#"+p+";";
+  E.value += "&#"+p+";";
   e.value += "&#x"+p.toString(16)+";";
   
   // ES6 escape ("\u{....}").
@@ -55,7 +55,7 @@ for(i of t = [...v = a.value]){
   
   // Windows-1252:
   // all ASCII chars (U+00 to U+7F) and chars U+A0 to U+FF, are similar to Unicode.
-  // chars U+80 to U+9F use these glyphs: "€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œž".
+  // chars U+80 to U+9F use these glyphs: "€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ".
   // chars > U+FF are ignored
   W = "€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ";
   
