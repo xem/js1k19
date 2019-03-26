@@ -41,12 +41,8 @@ with(g){
           n = ET - 3,
           Int8Array.of(
             i(
-              `precision mediump float;uniform vec3 C;
-              
-              /*vec3 n(vec3 p){
-                vec2 e=vec2(.001,0);
-                return normalize(vec3(m(p-e.xyy)-m(p+e.xyy),m(p-e.yxy)-m(p+e.yxy),m(p-e.yyx)-m(p+e.yyx)));
-              }*/
+              `
+precision mediump float;uniform vec3 C;
               
 void main(){
   gl_FragColor = vec4(0,0,0,1);
