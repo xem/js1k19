@@ -1,0 +1,91 @@
+﻿<body id=b bgcolor=0>
+<script>
+
+b.innerHTML += `<div style="color:#fff;font:14px'arial';perspective:5999px;width:99vw;height:95vh;overflow:hidden"><div style="transform-style:preserve-3d" id=t>`
+
+for(i in n = ` 0Mercury0Venus0Earth0Mars0Jupiter0Saturn0Uranus0Neptune0Pluto`.split(b.bgColor=0)){
+
+t.innerHTML +=
+
+`<center style="transform-style:preserve-3d; color:#fff;position:fixed;top:30vh;left:50%; transform: translateX(-50%)translateY(${
+
+i == "0" ? "-50%" : 0
+
+})translateZ(${
+
+  // Distance from previous body: 
+  // 0,166665,14447,11915,22552,1157245,176550,416130,469031,192917
+  
+  // Distances from sun, rounded to 1000
+  [0,166,181,193,215,1372,1549,1965,2434,2627][i] * 1000 * 10
+  
+}px)">
+<h1 style="color:#fff;font-size:4em;text-stroke:9px #000;-webkit-text-stroke:1px #000">${
+  n[i]
+}
+</h1>
+<div style="transform-style:preserve-3d; margin: auto; width: ${
+
+  ([400,2,4,4,2,41,34,15,15][i] || 2) * 10
+
+}px; height: ${
+
+  ([400,2,4,4,2,41,34,15,15][i] || 2) * 10
+  
+}px; border-radius: 50%; background: #${
+
+  `fb4fa0aabxxxd84c84ec7cee46fdb8`.substr(i * 3, 3)
+
+}; ${
+
+  [
+    "box-shadow: 0 0 500px 200px #fff; background: radial-gradient(#ffb,#fff);",
+    "background: radial-gradient(#888,#bbb)",
+    "background: radial-gradient(#c72,#941)",
+    'font-size:2.5em;">🌍</div "',
+    "background: linear-gradient(#dba 10%,transparent 30%, transparent 70%, #dba 90%),radial-gradient(#d64,#f97)",
+    "background: linear-gradient(#654,#b97,#ecb,#a86,#c86,#c97,#ecc,#b98,#655)",
+    "background: linear-gradient(#666,#986 10%,#ec7,#ba7,#997 90%,#553)",
+    "background: linear-gradient(#cef,#4de 30%,#38a)",
+    "background: linear-gradient(#34c,#36f 70%,#34c)",
+    "background: linear-gradient(#ddc,#321)",
+  ][i]
+
+}
+
+">${
+
+i % 7 > 2 ? `<div style='transform-style:preserve-3d; margin: auto; width: 130%; height: 130%; border-radius: 50%; border: ${
+
+  ([400,2,4,4,2,41,34,15,15][i] || 2) * 10 / 10
+  
+}px solid #${
+
+  [ , , , , , "fff8", "876", ][i]
+  
+}; transform: translateX(-17%)translateY(-17%)translateZ(${
+
+  0
+  
+}px) rotateX(85deg) rotateY(10deg)'>` : ""
+}`
+
+}
+
+dist = 1930000;
+setInterval(
+  function(){
+    
+    // speed is 300 000km/s
+    // framerate is 30fps
+    // 1px is ~3500km
+    // so move at each frame = 300 000 / 30 km = 10 000km 
+    // = ~3px
+    
+    dist += 30;
+    t.style.transform = `translateZ(${-dist}px)`;
+  }
+,33);
+
+
+</script>
