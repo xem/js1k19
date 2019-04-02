@@ -1,0 +1,53 @@
+﻿<body id=b>
+<script>
+
+/* 1UA = 43062px
+
++-------------+-------------+
+| Body        | Distance to |
+|             | Sun (in UA) |
++=============+=============+
+| Sun         | 0           |
+| Mercury     | 0.38709893  |
+| Venus       | 0.723332    |
+| Earth       | 1.000001018 |
+| Mars        | 1.523679    |
+| Ceres       | 2.7675      |
+| Jupiter     | 5.45492     |
+| Saturn      | 9.554909    |
+| Uranus      | 19.2184     |
+| Neptune     | 30.110387   |
+| Pluto       | 39.48       |
++-------------+-------------+
+
+*/
+
+b.innerHTML+=`<div style="transform-style:preserve-3d;color:#fff;font:16px arial;position:fixed;z-index:2"id=m></div><div style="transform-style:preserve-3d;color:#fff;font:16px arial;perspective:6000px;height:95vh;overflow:hidden"><div style="transform-style:preserve-3d;color:#fff;font:16px arial;"id=t>`;
+for(i in n=`0Mercury0Venus0Earth0Mars0Ceres0Jupiter0Saturn0Uranus0Neptune0Pluto`.split(b.bgColor=D=S=0))
+m.innerHTML+=`<p onclick="S=0;D=-${[0,.4,.7,1,1.5,2.7,5.4,9.5,19.2,30.1,39.5][i]*43e5}+6000">\xa0`+n[i],
+t.innerHTML+=`<center style="transform-style:preserve-3d;color:#fff;font:16px arial;position:fixed;top:30vh;left:50%;transform:translateX(-50%)translateY(-${+i?0:50}%)translateZ(${[0,.4,.7,1,1.5,2.7,5.4,9.5,19.2,30.1,39.5][i]*43e5}px"><h1 style="color:#fff;font:9vh arial;margin:5vh">${n[i]}</h1><div style="transform-style:preserve-3d;color:#fff;font:16px arial;width:${[400,2,4,4,2,1,41,34,15,15,2][i]*9
+}px;height:${[400,2,4,4,2,1,41,34,15,15,2][i]*9}px;border-radius:50%;background:${[
+`radial-gradient(#ffb,#fff);box-shadow:0 0 400px 100px#fff`,
+`radial-gradient(#888,#bbb`,
+`radial-gradient(#c72,#941`,
+`font-size:40px">🌍</div "`,
+`linear-gradient(#dba 9%,#0000 30%,#0000 70%,#dba 90%),radial-gradient(#d64,#f97`,
+`#777`,
+`linear-gradient(#654,#b97,#ecb,#a86,#c86,#c97,#ecc,#b98,#655`,
+`linear-gradient(#666,#986 9%,#ec7,#ba7,#997 90%,#553`,
+`linear-gradient(#cef,#4de 30%,#38a`,
+`linear-gradient(#34c,#36f 70%,#34c`,
+`linear-gradient(#ddc,#321`
+][i]
+}
+">${
+i%8>5?`<div style="transform-style:preserve-3d;color:#fff;font:16px arial;width:130%;height:130%;border-radius:50%;border:40px solid#${["fff",876][i-6]};transform:translateX(-17%)translateY(-17%)rotateX(85deg)rotateY(9deg">`:""}`;
+setInterval("S<300&&S++;t.style.transform=`translateZ(${D-=S}px`",33)
+
+
+// speed of light is 300 000km/s
+// framerate is 30fps
+// 1px is ~3500km
+// so move at each frame = 300 000 / 30 km = 10 000km 
+// = ~3px
+</script>

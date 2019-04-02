@@ -1,91 +1,110 @@
-﻿<body id=b bgcolor=0>
+﻿<body id=b>
 <script>
 
-b.innerHTML += `<div style="color:#fff;font:14px'arial';perspective:5999px;width:99vw;height:95vh;overflow:hidden"><div style="transform-style:preserve-3d" id=t>`
+// Introduction
+// ============
 
-for(i in n = ` 0Mercury0Venus0Earth0Mars0Jupiter0Saturn0Uranus0Neptune0Pluto`.split(b.bgColor=0)){
+// This demo shows the solar system to scale, from the point of view of a ray of light that escapes the sun. Click the planet names on the left to warp near them. Works best on Webkit. Say hi to 🌍 in 8 minutes!
 
-t.innerHTML +=
+// It contains 10 (X) planets and dwarf planets ;)
 
-`<center style="transform-style:preserve-3d; color:#fff;position:fixed;top:30vh;left:50%; transform: translateX(-50%)translateY(${
+// It is inspired by the video "Riding Light" by Alphonse Swinehart: https://vimeo.com/117815404
 
-i == "0" ? "-50%" : 0
+// For the needs of the demo, we'll assume that all the planets are aligned and that the laws of physics allow to travel at the speed of light and see things normally.
 
-})translateZ(${
+// The asteroid belts are not represented to save bytes. Sorry...
 
-  // Distance from previous body: 
-  // 0,166665,14447,11915,22552,1157245,176550,416130,469031,192917
+// It's probably the longest JS1k demo ever (> 5h15 minutes to reach Pluto)!
+
+// More info in the following table...
+
+// +-------------+-------------+------------------+-------------+----------+
+// | Body        | Distance to | Distance to Sun  | Time to     | Diameter |
+// |             | Sun (in UA) | (in px, approx.) | reach (s)   | (in px)  |
+// +=============+=============+==================+=============+==========+
+// | Sun         | 0           | 0                | 0           | 400*9    |
+// | Mercury     | 0.38709893  | 0.4*43e5         | 191         | 2*9      |
+// | Venus       | 0.723332    | 0.7*43e5         | 334         | 4*9      |
+// | Earth       | 1.000001018 | 1*43e5           | 477         | 4*9      |
+// | Mars        | 1.523679    | 1.5*43e5         | 716         | 2*9      |
+// | Ceres       | 2.7675      | 2.7*43e5         | 1290        | 1*9      |
+// | Jupiter     | 5.45492     | 5.4*43e5         | 2580        | 41*9     |
+// | Saturn      | 9.554909    | 9.5*43e5         | 4538        | 34*9     |
+// | Uranus      | 19.2184     | 19.2*43e5        | 9173        | 15*9     |
+// | Neptune     | 30.110387   | 30.1*43e5        | 14381       | 15*9     |
+// | Pluto       | 39.48       | 39.5*43e5        | 18872       | 2*9      |
+// +-------------+-------------+------------------+-------------+----------+
+
+// NB: 
+// - An UA (Sun-Earth distance) is represented by 4,300,000px
+// - The speed of light is represented by 300px/frame
+
+// The scene is rendered in CSS3D, and many inline CSS rules are repeated excessively to ensure a better RegPack compression.
+// The last planets are a bit shaky due to the long distances that hit the limits of floating point numbers. 
+
+// HTML containers
+b.innerHTML += `
   
-  // Distances from sun, rounded to 1000
-  [0,166,181,193,215,1372,1549,1965,2434,2627][i] * 1000 * 10
-  
-}px)">
-<h1 style="color:#fff;font-size:4em;text-stroke:9px #000;-webkit-text-stroke:1px #000">${
-  n[i]
-}
-</h1>
-<div style="transform-style:preserve-3d; margin: auto; width: ${
-
-  ([400,2,4,4,2,41,34,15,15][i] || 2) * 10
-
-}px; height: ${
-
-  ([400,2,4,4,2,41,34,15,15][i] || 2) * 10
-  
-}px; border-radius: 50%; background: #${
-
-  `fb4fa0aabxxxd84c84ec7cee46fdb8`.substr(i * 3, 3)
-
-}; ${
-
-  [
-    "box-shadow: 0 0 500px 200px #fff; background: radial-gradient(#ffb,#fff);",
-    "background: radial-gradient(#888,#bbb)",
-    "background: radial-gradient(#c72,#941)",
-    'font-size:2.5em;">🌍</div "',
-    "background: linear-gradient(#dba 10%,transparent 30%, transparent 70%, #dba 90%),radial-gradient(#d64,#f97)",
-    "background: linear-gradient(#654,#b97,#ecb,#a86,#c86,#c97,#ecc,#b98,#655)",
-    "background: linear-gradient(#666,#986 10%,#ec7,#ba7,#997 90%,#553)",
-    "background: linear-gradient(#cef,#4de 30%,#38a)",
-    "background: linear-gradient(#34c,#36f 70%,#34c)",
-    "background: linear-gradient(#ddc,#321)",
-  ][i]
-
-}
-
-">${
-
-i % 7 > 2 ? `<div style='transform-style:preserve-3d; margin: auto; width: 130%; height: 130%; border-radius: 50%; border: ${
-
-  ([400,2,4,4,2,41,34,15,15][i] || 2) * 10 / 10
-  
-}px solid #${
-
-  [ , , , , , "fff8", "876", ][i]
-  
-}; transform: translateX(-17%)translateY(-17%)translateZ(${
-
-  0
-  
-}px) rotateX(85deg) rotateY(10deg)'>` : ""
-}`
-
-}
-
-dist = 1930000;
-setInterval(
-  function(){
+  <!-- Left menu (id = m) --> 
+  <div style="transform-style:preserve-3d;color:#fff;font:16px arial;position:fixed;z-index:2"id=m></div>
+ 
+  <!-- Viewport with perspective -->
+  <div style="transform-style:preserve-3d;color:#fff;font:16px arial;perspective:6000px;height:95vh;overflow:hidden">
     
-    // speed is 300 000km/s
-    // framerate is 30fps
-    // 1px is ~3500km
-    // so move at each frame = 300 000 / 30 km = 10 000km 
-    // = ~3px
-    
-    dist += 30;
-    t.style.transform = `translateZ(${-dist}px)`;
-  }
-,33);
+    <!-- Scene container (id = t), this container contains all the planets and moves forward -->
+    <div style="transform-style:preserve-3d;color:#fff;font:16px arial;"id=t>
+`;
 
+// Planets
+// -------
+
+// Loop on all the names (n[i])
+// Also, initialize D (distance to sun), S (camera speed) and b.bgColor (body's background) to 0.
+for(i in n = `0Mercury0Venus0Earth0Mars0Ceres0Jupiter0Saturn0Uranus0Neptune0Pluto`.split(b.bgColor = D = S = 0)){
+  
+  // Add the name to the menu.
+  // On click, Reset the speed to 0 and set the distance to -(current planet distance) + (camera perspective)
+  // The name is preceded with a non-breaking space to avoid sticking to the left of the screen.
+  m.innerHTML += `<p onclick="S = 0 ; D = -${ [0, .4, .7, 1, 1.5, 2.7, 5.4, 9.5, 19.2, 30.1, 39.5][i] * 43e5 } + 6000">\xa0` + n[i],
+  
+  // Add the planet container to the scene.
+  // Only the sun has a translateY(-50%) to be centered vertically.
+  // All the other planets are not centered, that's why the camera passes between the name and the planet instead of going through the planet, which would look weird.
+  t.innerHTML += `<center style="transform-style:preserve-3d;color:#fff;font:16px arial;position:fixed;top:30vh;left:50%;transform:translateX(-50%)translateY(-${ +i ? 0 : 50 }%)translateZ(${[0, .4, .7, 1, 1.5, 2.7, 5.4, 9.5, 19.2, 30.1, 39.5][i] * 43e5 }px">
+  
+    <!-- Planet name -->
+    <h1 style="color:#fff;font:9vh arial;margin:5vh">${n[i]}</h1>
+    
+    <!-- Planet -->
+    <div style="transform-style:preserve-3d;color:#fff;font:16px arial;width:${ [400, 2, 4, 4, 2, 1, 41, 34, 15, 15, 2][i] * 9 }px;height:${[400, 2, 4, 4, 2, 1, 41, 34, 15, 15, 2][i] * 9 }px;border-radius:50%;background:${ 
+      
+      // Custom style for each planet (background, shadow, and the Earth emoji for the Earth)
+      [
+        `radial-gradient(#ffb,#fff);box-shadow:0 0 400px 100px#fff`,
+        `radial-gradient(#888,#bbb`,
+        `radial-gradient(#c72,#941`,
+        `font-size:40px">🌍</div "`,
+        `linear-gradient(#dba 9%,#0000 30%,#0000 70%,#dba 90%),radial-gradient(#d64,#f97`,
+        `#777`,
+        `linear-gradient(#654,#b97,#ecb,#a86,#c86,#c97,#ecc,#b98,#655`,
+        `linear-gradient(#666,#986 9%,#ec7,#ba7,#997 90%,#553`,
+        `linear-gradient(#cef,#4de 30%,#38a`,
+        `linear-gradient(#34c,#36f 70%,#34c`,
+        `linear-gradient(#ddc,#321`
+      ][i]
+    }">${
+    
+    // Rings (only for Jupiter and Saturn)    
+    i % 8 > 5 ? 
+      `<div style="transform-style:preserve-3d;color:#fff;font:16px arial;width:130%;height:130%;border-radius:50%;border:40px solid#${ ["fff", 876][i - 6] };transform:translateX(-17%)translateY(-17%)rotateX(85deg)rotateY(9deg">` : ""
+      
+    }`;
+}
+
+// Loop
+// ----
+
+// 30 times per second, increase camera speed up to 300px/frame, and move the container t forward accordingly.
+setInterval("S < 300 && S++; t.style.transform = `translateZ(${ D -= S }px`", 33)
 
 </script>
